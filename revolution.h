@@ -15,7 +15,7 @@ private:
     HistoireRevolution m_HistoireRevolution;
 
 protected:
-    // pour les aventrues qui n'utilisent pas le json mais du code :surclasser aventure et développer cette fonction
+    // pour les aventures qui n'utilisent pas le json mais du code :surclasser aventure et développer cette fonction
     virtual void GenererAventure();
     // génère toutes les caracs qui peuvent être visualisées par le joueur (d'autres caracs peuvent être générées et invisibles n'importe quand dans l'aventure)
     virtual void GenererCaracs();
