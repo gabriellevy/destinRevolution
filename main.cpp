@@ -1,12 +1,14 @@
-#include "revolution.h"
+#include "urevolution.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    Revolution* av = new Revolution(eh_Mirabeau);
-    av->show();
+    URevolution av;
+    Hist* hist = av.ExecuterGenerateurHistoire();
+    av.LancerHistoire(hist);
+    av.show();
 
     return a.exec();
 }
