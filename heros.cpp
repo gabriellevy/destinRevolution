@@ -14,7 +14,7 @@ void Heros::InitialiserPerso()
                              "0",
                              "",
                              URevolution::HABILETE,
-                             MODE_AFFICHAGE::ma_Texte);
+                             MODE_AFFICHAGE::ma_Nombre);
     GestionnaireCarac::GetGestionnaireCarac()->AjouterCarac(caracHABILETE);
     m_CaracsAAfficher.push_back(URevolution::HABILETE);
     Carac* caracPUISSANCE = new Carac(URevolution::PUISSANCE,
@@ -22,7 +22,7 @@ void Heros::InitialiserPerso()
                              "0",
                              "",
                              URevolution::PUISSANCE,
-                             MODE_AFFICHAGE::ma_Texte);
+                             MODE_AFFICHAGE::ma_Nombre);
     GestionnaireCarac::GetGestionnaireCarac()->AjouterCarac(caracPUISSANCE);
     m_CaracsAAfficher.push_back(URevolution::PUISSANCE);
     Carac* caracCHARISME = new Carac(URevolution::CHARISME,
@@ -30,7 +30,7 @@ void Heros::InitialiserPerso()
                              "0",
                              "",
                              URevolution::CHARISME,
-                             MODE_AFFICHAGE::ma_Texte);
+                             MODE_AFFICHAGE::ma_Nombre);
     GestionnaireCarac::GetGestionnaireCarac()->AjouterCarac(caracCHARISME);
     m_CaracsAAfficher.push_back(URevolution::CHARISME);
     Carac* caracINTELLIGENCE = new Carac(URevolution::INTELLIGENCE,
@@ -38,7 +38,7 @@ void Heros::InitialiserPerso()
                              "0",
                              "",
                              URevolution::INTELLIGENCE,
-                             MODE_AFFICHAGE::ma_Texte);
+                             MODE_AFFICHAGE::ma_Nombre);
     GestionnaireCarac::GetGestionnaireCarac()->AjouterCarac(caracINTELLIGENCE);
     m_CaracsAAfficher.push_back(URevolution::INTELLIGENCE);
     Carac* caracVolonte = new Carac(URevolution::VOLONTE,
@@ -46,7 +46,7 @@ void Heros::InitialiserPerso()
                              "0",
                              "",
                              URevolution::VOLONTE,
-                             MODE_AFFICHAGE::ma_Texte);
+                             MODE_AFFICHAGE::ma_Nombre);
     GestionnaireCarac::GetGestionnaireCarac()->AjouterCarac(caracVolonte);
     m_CaracsAAfficher.push_back(URevolution::VOLONTE);
 }
