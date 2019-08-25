@@ -2,6 +2,14 @@
 #include "ui_univers.h"
 #include "genprologueardennes.h"
 
+QString URevolution::COMP_ARME = "Arme";
+
+QString URevolution::HABILETE = "Habileté";
+QString URevolution::PUISSANCE = "Puissance";
+QString URevolution::CHARISME = "Charisme";
+QString URevolution::INTELLIGENCE = "Intelligence";
+QString URevolution::VOLONTE = "Volonté";
+
 URevolution::URevolution(ModeAffichage modeAffichage,
                          QWidget *parent)
     : Univers(parent, modeAffichage)

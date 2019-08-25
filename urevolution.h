@@ -17,6 +17,15 @@ public:
 
     Hist* ExecuterGenerateurHistoire();
 
+    // caractérisiques principales (au sens jdr)
+    static QString HABILETE;
+    static QString PUISSANCE;
+    static QString CHARISME;
+    static QString INTELLIGENCE;
+    static QString VOLONTE;
+    //compétences
+    static QString COMP_ARME;
+
 private:
 
 };

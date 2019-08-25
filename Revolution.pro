@@ -25,6 +25,7 @@ CONFIG += resources_big
 
 SOURCES += \
     genprologueardennes.cpp \
+    heros.cpp \
         main.cpp \
     ../destinLib/selectionneurdenoeud.cpp \
     ../destinLib/univers.cpp \
@@ -36,7 +37,6 @@ SOURCES += \
     ../destinLib/effet.cpp \
     ../destinLib/choix.cpp \
     ../destinLib/evt.cpp \
-    ../destinLib/evt.h \
     ../destinLib/genevt.cpp \
     ../destinLib/execevt.cpp \
     ../destinLib/glisseur.cpp \
@@ -83,6 +83,7 @@ HEADERS += \
     ../destinLib/aleatoire.h \
     aspectratiolabel.h \
     genprologueardennes.h \
+    heros.h \
     urevolution.h
 
 FORMS += \
