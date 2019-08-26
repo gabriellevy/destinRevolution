@@ -16,6 +16,7 @@ QString GenPrologueArdennes::PRIO_ERUDIT = "Érudit";
 QString GenPrologueArdennes::PRIO_ARTISTE = "Artiste";
 QString GenPrologueArdennes::PRIO_MAGICIEN = "Magicien";
 QString GenPrologueArdennes::PRIO_MALANDRIN = "Malandrin";
+QString GenPrologueArdennes::PRIO_AVENTURIER = "Aventurier";
 
 GenPrologueArdennes::GenPrologueArdennes(Hist* histoireGeneree):GenHistoire (histoireGeneree) {}
 
@@ -48,6 +49,7 @@ void GenPrologueArdennes::GenererCaracs()
 
 QString GenPrologueArdennes::ID_EF_ACCUEIL = "Eveil";
 QString GenPrologueArdennes::ID_EF_HOMME_SAUVAGE = "Homme Sauvage";
+QString GenPrologueArdennes::ID_EF_HISTOIRE_ERMITE = "Histoire ermite";
 
 Effet* GenPrologueArdennes::GenererHommeSauvage()
 {
@@ -68,7 +70,7 @@ Effet* GenPrologueArdennes::GenererHommeSauvage()
 
     Choix* choixEviter = m_GenerateurEvt->AjouterChoixAjouteurACarac(
                  "Vous préférez ne pas vous en mêler. Ce n'est pas à vous de régler les conflits entre sauvages et civilisés", GenPrologueArdennes::PRIO_MALANDRIN, "1");
-    choixEviter->m_GoToEffetId = "eviterHommeSauvage";
+    choixEviter->m_GoToEffetId = GenPrologueArdennes::ID_EF_HISTOIRE_ERMITE;// fin de l'événement
 
     // embuscade
     Effet* embuscade = m_GenerateurEvt->AjouterEffetNarration("Vous parvenez à le doubler rapidement. Il a beau être très grand il est très ralenti par son fardeau. Vous vous postez dans un arbre et, comme prévu, il va passer dessous dans une dizaine de secondes.",
@@ -102,11 +104,12 @@ Effet* GenPrologueArdennes::GenererEveil()
 
     // les choix
     Choix* choixExplorer = m_GenerateurEvt->AjouterChoixAjouteurACarac(
-                 "Vous partez explorer au hasard", URevolution::VOLONTE, "1");
+                 "Vous partez explorer au hasard", GenPrologueArdennes::PRIO_AVENTURIER, "1");
     choixExplorer->m_GoToEffetId = GenPrologueArdennes::ID_EF_HOMME_SAUVAGE;
 
     Choix* choixManger = m_GenerateurEvt->AjouterChoixAjouteurACarac(
-                 "Parons au plus pressé : vous cherchez si il y a trace de fruits comestibles dans les environs ou d'animaux à chasser", GenPrologueArdennes::PRIO_TRAVAILLEUR, "1");
+                 "Parons au plus pressé : vous cherchez si il y a trace de fruits comestibles dans les environs ou d'animaux à chasser",
+                GenPrologueArdennes::PRIO_TRAVAILLEUR, "1");
     choixManger->m_GoToEffetId = "ChercherAManger";
 
     Choix* choixReflechir = m_GenerateurEvt->AjouterChoixAjouteurACarac(
@@ -119,6 +122,19 @@ Effet* GenPrologueArdennes::GenererEveil()
 
 
     return eveil;
+}
+
+Effet* GenPrologueArdennes::GenererHistoireErmite()
+{
+    Effet* effet = m_GenerateurEvt->AjouterEffetNarration("à écrire !!!!!!!!!!!",
+                                                          "", GenPrologueArdennes::ID_EF_HISTOIRE_ERMITE);
+
+    // les choix
+    /*Choix* choixExplorer = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "Vous partez explorer au hasard", URevolution::VOLONTE, "1");
+    choixExplorer->m_GoToEffetId = GenPrologueArdennes::ID_EF_HOMME_SAUVAGE;*/
+
+    return effet;
 }
 
 void GenPrologueArdennes::GenererEvtsAccueil()

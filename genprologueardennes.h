@@ -12,9 +12,6 @@ public:
 
     virtual Hist* GenererHistoire();
 
-    Effet* GenererEveil();
-    Effet* GenererHommeSauvage();
-
 protected:
     // génère toutes les caracs qui peuvent être visualisées par le joueur (d'autres caracs peuvent être générées et invisibles n'importe quand dans l'aventure)
     virtual void GenererCaracs();
@@ -22,6 +19,7 @@ protected:
 
     static QString ID_EF_ACCUEIL;
     static QString ID_EF_HOMME_SAUVAGE;
+    static QString ID_EF_HISTOIRE_ERMITE;
 
     // caracs temporaires qui calculent les priorités du joueur pour en déterminer ses caracs à la fin du jeu
     static QString PRIO_ARISTOCRATIE;
@@ -33,9 +31,16 @@ protected:
     static QString PRIO_ARTISTE;
     static QString PRIO_MAGICIEN;
     static QString PRIO_MALANDRIN;
+    static QString PRIO_AVENTURIER;
 
 private:
+    // génération de l'événement de base
     void GenererEvtsAccueil();
+
+    // génération de tous les effets (mini événements)
+    Effet* GenererEveil();
+    Effet* GenererHommeSauvage();
+    Effet* GenererHistoireErmite();
 
 };
 
