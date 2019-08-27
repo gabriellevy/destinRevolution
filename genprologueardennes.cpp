@@ -17,6 +17,7 @@ QString GenPrologueArdennes::PRIO_ARTISTE = "Artiste";
 QString GenPrologueArdennes::PRIO_MAGICIEN = "Magicien";
 QString GenPrologueArdennes::PRIO_MALANDRIN = "Malandrin";
 QString GenPrologueArdennes::PRIO_AVENTURIER = "Aventurier";
+QString GenPrologueArdennes::PRIO_REVOLUTION = "Revolution";
 
 GenPrologueArdennes::GenPrologueArdennes(Hist* histoireGeneree):GenHistoire (histoireGeneree) {}
 
@@ -50,6 +51,7 @@ void GenPrologueArdennes::GenererCaracs()
 QString GenPrologueArdennes::ID_EF_ACCUEIL = "Eveil";
 QString GenPrologueArdennes::ID_EF_HOMME_SAUVAGE = "Homme Sauvage";
 QString GenPrologueArdennes::ID_EF_HISTOIRE_ERMITE = "Histoire ermite";
+QString GenPrologueArdennes::ID_EF_APRES_HISTOIRE_ERMITE = "Après Histoire ermite";
 
 Effet* GenPrologueArdennes::GenererHommeSauvage()
 {
@@ -126,21 +128,59 @@ Effet* GenPrologueArdennes::GenererEveil()
 
 Effet* GenPrologueArdennes::GenererHistoireErmite()
 {
-    Effet* effet = m_GenerateurEvt->AjouterEffetNarration("à écrire !!!!!!!!!!!",
-                                                          "", GenPrologueArdennes::ID_EF_HISTOIRE_ERMITE);
+    QString txtErmite = "Vous vous éloignez et, sans vraiment savoir pourquoi ni vers où, vous vous remettez à vous enfoncer dans la forêt. Après quelques minutes seulement vous appercevez un feu au loin. Il s'agit d'un feu maîtrisé, sans doute allumé par un voyageur. Vous croyiez vous être élancé au hasard dans la forêt mais vos pas vous menaient droit vers ce feu avant même que vous ne le voyiez. Est-ce le froid, la solitude ou autre chose ? Vous ne pouvez résister à l'appel du feu de camps et vous approchez, en prenant le minimum de précautions.\n"
+                  "Il semble en effet ne pas y avoir de risques : la seule personne assise près du modeste feu de fois est un très vieil homme barbu et frêle. Il est habillé à la manière rustique d'un forestier mais ses habits sont si abimés qu'il ressemble plutôt à un vagabond ou à un ermite.\n"
+                  "À votre approche il ne vous dit pas un mot et se contente de vous tendre ce qui semble être son unique repas : une belle pomme bien mûre.\n"
+                  "Ne prêtant aucun attention à votre réaction et ne vous regardant même pas dans les yeux il se contente de dire gravement : \"Vous avez une chance rare étranger. Vous vous tenez en face de la mémoire vivante de la forêt des ardennes. J'habite ces bois depuis plus de 2000 ans et rares sont les humains qui me trouvent. Assurément une force vous a mené ici. J'ignore pourquoi car je ne suis vraiment d'aucune utilité à un aventurier. Je ne suis rien d'autre qu'une mémoire qui raconte des histoires. Peut-être est-ce qu'il vous faut pour passer cette froide nuit. Voudriez vous en entendre une ?\"";
+    Effet* effet = m_GenerateurEvt->AjouterEffetNarration(txtErmite, "", GenPrologueArdennes::ID_EF_HISTOIRE_ERMITE);
 
     // les choix
-    /*Choix* choixExplorer = m_GenerateurEvt->AjouterChoixAjouteurACarac(
-                 "Vous partez explorer au hasard", URevolution::VOLONTE, "1");
-    choixExplorer->m_GoToEffetId = GenPrologueArdennes::ID_EF_HOMME_SAUVAGE;*/
+    Choix* choixHistoireCharlemagne = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "Avez vous cotoyé Charlemagne ? On dit qu'il a souvent chassé dans ces bois avec son neveu Roland.", GenPrologueArdennes::PRIO_ARISTOCRATIE, "1");
+    choixHistoireCharlemagne->m_GoToEffetId = "histoireCharlemagne";
+
+    Choix* choixFilsAymon = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "Racontez moi l'histoire des fils Aymon poursuivis par Charlemagne et de leur cheval fée Bayard.", GenPrologueArdennes::PRIO_AVENTURIER, "1");
+    choixFilsAymon->m_GoToEffetId = "choixFilsAymon";
+
+    Choix* choixPasHistoire = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "Peu m'importe le passé seul compte le présente et le futur qui en sera issu. Si vous ne pouvez m'aider je préfère dormir jusqu'au matin.", GenPrologueArdennes::PRIO_REVOLUTION, "1");
+    choixPasHistoire->m_GoToEffetId = "pasHistoire";
+
+    Choix* choixSaintLaurent = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "Avez vous rencontré le pieu Saint Laurent ? On dit qu'il a été ermite dans cette forêt.", GenPrologueArdennes::PRIO_PRETRE, "1");
+    choixSaintLaurent->m_GoToEffetId = "histoireSaintLaurent";
+
+    Choix* choixFees = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "On dit que ce bois est plein de fées. En êtes vous un ?", GenPrologueArdennes::PRIO_MAGICIEN, "1");
+    choixFees->m_GoToEffetId = "choixFees";
+
+    Choix* choixHistoire = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "Vous préférez lui poser des questions sur l'histoire ancestrale de la forêt", GenPrologueArdennes::PRIO_ERUDIT, "1");
+    choixHistoire->m_GoToEffetId = "choixHistoire";
+
+    Choix* choixChanson = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "Vous préférez passer la nuit à chanter et danser.", GenPrologueArdennes::PRIO_ARTISTE, "1");
+    choixChanson->m_GoToEffetId = "choixChanson";
+
+    // effet choixFilsAymon
+    QString txtAymon = "Afin d'être fait chevalier, Les fils Aymon Allard, Guichard, Renaud et Richard(et) partent à la cour de l'empereur et le servent honorablement. Mais à la suite d'une discussion qui survient au cours d'une partie d'échecs, Renaud blesse mortellement Bertolai, le neveu de Charlemagne.\n"
+            "Pour fuir la colère de l'empereur, Renaud est obligé de s'éloigner de la cour. Il se refugie d'abord chez son père qui le chasse de la forteresse de Dordone. Monté avec ses trois frères sur leur unique cheval Bayard, ils s'enfoncent dans la mystérieuse forêt d'Ardenne et sèment rapidement leurs poursuivants grâce aux pouvoirs magiques de Bayard qui est capable de franchir une vallée d'un seul saut. Là, avec l'aide de leur cousin, Maugis, enchanteur et un peu voleur, ils construisent la forteresse de Montessor sur un rocher surplombant la Meuse.\n"
+            "Mais au bout de sept ans Charlemagne connaît leur retraite et il fait le siège du château avec une troupe importante. A cause de la traitrise d'Hervé de Lausanne, qui profite de l'hospitalité des fils Aymon pour en ouvrir la herse durant la nuit, le château est sur le point d'être pris les quatre frères s'enfuient du château et se réfugient une nouvelle fois dans les profondeurs de la forêt ardennaise. Tous quatre, Renault, Allard, Richard et Guichard(et), sur leur cheval magique Bayard, fuient sans cesse et franchissent la Meuse d'un bond immense.\n"
+            "Fuyant vers le sud Ils se mettent au service du roi Yvon de Gascogne. Ils sont une aide précieuse lors des combats qui opposent les troupes du roi Yvon de celles de l’émir Beges. En remerciement le roi donne à Renault la main de sa soeur Aélis et des terres. Renaud va y faire construire un château qu'il nomme Montauban « parce qu'il est construit sur une montagne de marbre ». Mais Charlemagne les retrouve. Il leur tend un piège en les envoyant affronter, désarmés, plusieurs armées durant la bataille de Vaucouleurs.\n"
+            "Roland et les douze pairs négocient la paix entre les différents protagonistes. Charlemagne accorde le pardon aux quatre frères et à leurs familles. La colère de Charlemagne ne s'apaisera qu'avec le sacrifice de Bayard, précipité dans la Meuse mais le cheval parvient toutefois à s'enfuir dans la forêt. Et par les nuits sans lune, le fougueux destrier revient parfois hanter la forêt d'Ardenne.\n"
+            "D'autre part Renaud doit renoncer au métier des armes et faire un pèlerinage à Jérusalem. A son retour il participe à la construction de la cathédrale de Cologne. Les ouvriers jaloux l’assassinent, car Renaud travaille plus que quiconque sans demander de salaire autre qu'un peu de nourriture. ";
+    Effet* histoireAymon = m_GenerateurEvt->AjouterEffetNarration(txtAymon, "", "choixFilsAymon");
+    histoireAymon->m_GoToEffetId = GenPrologueArdennes::ID_EF_APRES_HISTOIRE_ERMITE;
 
     return effet;
 }
 
 void GenPrologueArdennes::GenererEvtsAccueil()
 {
-    /*Evt* Debut = */this->AjouterEvt("Debut", "Génération du perso par les choix");
-    GenererEveil();
-    GenererHommeSauvage();
+    this->AjouterEvt("Debut", "Génération du perso par les choix");
+    //GenererEveil();
+    //GenererHommeSauvage();
+    GenererHistoireErmite();
 
 }
