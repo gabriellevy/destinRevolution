@@ -7,17 +7,16 @@
 #include "../destinLib/execeffet.h"
 #include "heros.h"
 
-QString GenPrologueArdennes::PRIO_ARISTOCRATIE = "Aristocratie";
-QString GenPrologueArdennes::PRIO_BOURGEOIS = "Bourgeois";
-QString GenPrologueArdennes::PRIO_GUERRIER = "Guerrier";
-QString GenPrologueArdennes::PRIO_PRETRE = "Prêtre";
-QString GenPrologueArdennes::PRIO_TRAVAILLEUR = "Travailleur";
-QString GenPrologueArdennes::PRIO_ERUDIT = "Érudit";
-QString GenPrologueArdennes::PRIO_ARTISTE = "Artiste";
-QString GenPrologueArdennes::PRIO_MAGICIEN = "Magicien";
-QString GenPrologueArdennes::PRIO_MALANDRIN = "Malandrin";
-QString GenPrologueArdennes::PRIO_AVENTURIER = "Aventurier";
-QString GenPrologueArdennes::PRIO_REVOLUTION = "Revolution";
+QString GenPrologueArdennes::PRIO_NOBLESSE = "Aristocratie";
+QString GenPrologueArdennes::PRIO_LUMIERE = "Bourgeois";
+QString GenPrologueArdennes::PRIO_FORCE = "Guerrier";
+QString GenPrologueArdennes::PRIO_RELIGION = "Prêtre";
+QString GenPrologueArdennes::PRIO_TRAVAIL = "Travailleur";
+QString GenPrologueArdennes::PRIO_SAVOIR = "Érudit";
+QString GenPrologueArdennes::PRIO_ART = "Artiste";
+QString GenPrologueArdennes::PRIO_FEERIE = "Magicien";
+QString GenPrologueArdennes::PRIO_LIBERTE = "Aventurier";
+QString GenPrologueArdennes::PRIO_ORDRE = "Ordre";
 
 GenPrologueArdennes::GenPrologueArdennes(Hist* histoireGeneree):GenHistoire (histoireGeneree) {}
 
@@ -30,6 +29,8 @@ Hist* GenPrologueArdennes::GenererHistoire()
     GenererCaracs();
 
     GenererEvtsAccueil();
+
+    FinGenerationHistoire();
 
     return m_HistoireGeneree;
 }
@@ -51,7 +52,9 @@ void GenPrologueArdennes::GenererCaracs()
 QString GenPrologueArdennes::ID_EF_ACCUEIL = "Eveil";
 QString GenPrologueArdennes::ID_EF_HOMME_SAUVAGE = "Homme Sauvage";
 QString GenPrologueArdennes::ID_EF_HISTOIRE_ERMITE = "Histoire ermite";
-QString GenPrologueArdennes::ID_EF_APRES_HISTOIRE_ERMITE = "Après Histoire ermite";
+QString GenPrologueArdennes::ID_EF_OIE = "Oie";
+
+QString GenPrologueArdennes::ID_EF_PROCHAIN_EFFET = "id prochain effet";
 
 Effet* GenPrologueArdennes::GenererHommeSauvage()
 {
@@ -59,19 +62,19 @@ Effet* GenPrologueArdennes::GenererHommeSauvage()
                                                           ":/Images/Ardennes/HommeSauvage.jpg", GenPrologueArdennes::ID_EF_HOMME_SAUVAGE);
     // les choix
     Choix* choixCombat = m_GenerateurEvt->AjouterChoixAjouteurACarac(
-                 "Vous sortez votre arme et le chargez", GenPrologueArdennes::PRIO_GUERRIER, "1");
+                 "Vous sortez votre arme et le chargez", GenPrologueArdennes::PRIO_FORCE, "1");
     choixCombat->m_GoToEffetId = "combatHommeSauvage";
 
     Choix* choixInterpeller = m_GenerateurEvt->AjouterChoixAjouteurACarac(
-                 "Vous interpelez le sauvage", GenPrologueArdennes::PRIO_BOURGEOIS, "1"); // bof...
+                 "Vous interpelez le sauvage", GenPrologueArdennes::PRIO_LUMIERE, "1"); // bof...
     choixInterpeller->m_GoToEffetId = "discussionHommeSauvage";
 
     Choix* choixEmbuscade = m_GenerateurEvt->AjouterChoixAjouteurACarac(
-                 "Vous tentez de le doubler discrètement pour dépasser sa position et lui tendre une embuscade", GenPrologueArdennes::PRIO_MALANDRIN, "1");
+                 "Vous tentez de le doubler discrètement pour dépasser sa position et lui tendre une embuscade", URevolution::HABILETE, "1");
     choixEmbuscade->m_GoToEffetId = "embuscadeHommeSauvage";
 
     Choix* choixEviter = m_GenerateurEvt->AjouterChoixAjouteurACarac(
-                 "Vous préférez ne pas vous en mêler. Ce n'est pas à vous de régler les conflits entre sauvages et civilisés", GenPrologueArdennes::PRIO_MALANDRIN, "1");
+                 "Vous préférez ne pas vous en mêler. Ce n'est pas à vous de régler les conflits entre sauvages et civilisés", GenPrologueArdennes::PRIO_LIBERTE, "1");
     choixEviter->m_GoToEffetId = GenPrologueArdennes::ID_EF_HISTOIRE_ERMITE;// fin de l'événement
 
     // embuscade
@@ -94,7 +97,7 @@ Effet* GenPrologueArdennes::GenererHommeSauvage()
                                                               "", "discussionHommeSauvageRelache");
     Choix* discussionAttaque = m_GenerateurEvt->AjouterChoixGoToEffet(
                  "Assez discuté vous l'attaquez", "combatHommeSauvage");
-    discussionAttaque->AjouterAjouteurACarac(GenPrologueArdennes::PRIO_GUERRIER, "1");
+    discussionAttaque->AjouterAjouteurACarac(GenPrologueArdennes::PRIO_FORCE, "1");
 
     return effet;
 }
@@ -106,12 +109,12 @@ Effet* GenPrologueArdennes::GenererEveil()
 
     // les choix
     Choix* choixExplorer = m_GenerateurEvt->AjouterChoixAjouteurACarac(
-                 "Vous partez explorer au hasard", GenPrologueArdennes::PRIO_AVENTURIER, "1");
+                 "Vous partez explorer au hasard", GenPrologueArdennes::PRIO_LIBERTE, "1");
     choixExplorer->m_GoToEffetId = GenPrologueArdennes::ID_EF_HOMME_SAUVAGE;
 
     Choix* choixManger = m_GenerateurEvt->AjouterChoixAjouteurACarac(
                  "Parons au plus pressé : vous cherchez si il y a trace de fruits comestibles dans les environs ou d'animaux à chasser",
-                GenPrologueArdennes::PRIO_TRAVAILLEUR, "1");
+                GenPrologueArdennes::PRIO_TRAVAIL, "1");
     choixManger->m_GoToEffetId = "ChercherAManger";
 
     Choix* choixReflechir = m_GenerateurEvt->AjouterChoixAjouteurACarac(
@@ -136,42 +139,106 @@ Effet* GenPrologueArdennes::GenererHistoireErmite()
 
     // les choix
     Choix* choixHistoireCharlemagne = m_GenerateurEvt->AjouterChoixAjouteurACarac(
-                 "Avez vous cotoyé Charlemagne ? On dit qu'il a souvent chassé dans ces bois avec son neveu Roland.", GenPrologueArdennes::PRIO_ARISTOCRATIE, "1");
+                 "Avez vous cotoyé Charlemagne ? On dit qu'il a souvent chassé dans ces bois avec son neveu Roland.", GenPrologueArdennes::PRIO_NOBLESSE, "1");
     choixHistoireCharlemagne->m_GoToEffetId = "histoireCharlemagne";
 
     Choix* choixFilsAymon = m_GenerateurEvt->AjouterChoixAjouteurACarac(
-                 "Racontez moi l'histoire des fils Aymon poursuivis par Charlemagne et de leur cheval fée Bayard.", GenPrologueArdennes::PRIO_AVENTURIER, "1");
+                 "Racontez moi l'histoire des fils Aymon poursuivis par Charlemagne et de leur cheval fée Bayard.", GenPrologueArdennes::PRIO_LIBERTE, "1");
     choixFilsAymon->m_GoToEffetId = "choixFilsAymon";
 
     Choix* choixPasHistoire = m_GenerateurEvt->AjouterChoixAjouteurACarac(
-                 "Peu m'importe le passé seul compte le présente et le futur qui en sera issu. Si vous ne pouvez m'aider je préfère dormir jusqu'au matin.", GenPrologueArdennes::PRIO_REVOLUTION, "1");
-    choixPasHistoire->m_GoToEffetId = "pasHistoire";
+                 "Peu m'importe le passé seul compte le présent et le futur qui en sera issu. Si vous ne pouvez m'aider je préfère dormir jusqu'au matin.",
+                GenPrologueArdennes::PRIO_LUMIERE, "1");
+    choixPasHistoire->m_GoToEffetId =  GenPrologueArdennes::ID_EF_OIE;
 
     Choix* choixSaintLaurent = m_GenerateurEvt->AjouterChoixAjouteurACarac(
-                 "Avez vous rencontré le pieu Saint Laurent ? On dit qu'il a été ermite dans cette forêt.", GenPrologueArdennes::PRIO_PRETRE, "1");
+                 "Avez vous rencontré le pieu Saint Hubert ? On dit qu'il a été ermite dans cette forêt.", GenPrologueArdennes::PRIO_RELIGION, "1");
     choixSaintLaurent->m_GoToEffetId = "histoireSaintLaurent";
 
     Choix* choixFees = m_GenerateurEvt->AjouterChoixAjouteurACarac(
-                 "On dit que ce bois est plein de fées. En êtes vous un ?", GenPrologueArdennes::PRIO_MAGICIEN, "1");
+                 "On dit que ce bois est plein de fées. En êtes vous un ?", GenPrologueArdennes::PRIO_FEERIE, "1");
     choixFees->m_GoToEffetId = "choixFees";
 
     Choix* choixHistoire = m_GenerateurEvt->AjouterChoixAjouteurACarac(
-                 "Vous préférez lui poser des questions sur l'histoire ancestrale de la forêt", GenPrologueArdennes::PRIO_ERUDIT, "1");
+                 "J'ai de nombreuses questions à vous poser sur la faune et la flore de cette forêt", GenPrologueArdennes::PRIO_SAVOIR, "1");
     choixHistoire->m_GoToEffetId = "choixHistoire";
 
     Choix* choixChanson = m_GenerateurEvt->AjouterChoixAjouteurACarac(
-                 "Vous préférez passer la nuit à chanter et danser.", GenPrologueArdennes::PRIO_ARTISTE, "1");
+                 "Je préférerai danser et chanter jusqu'au matin.", GenPrologueArdennes::PRIO_ART, "1");
     choixChanson->m_GoToEffetId = "choixChanson";
 
     // effet choixFilsAymon
-    QString txtAymon = "Afin d'être fait chevalier, Les fils Aymon Allard, Guichard, Renaud et Richard(et) partent à la cour de l'empereur et le servent honorablement. Mais à la suite d'une discussion qui survient au cours d'une partie d'échecs, Renaud blesse mortellement Bertolai, le neveu de Charlemagne.\n"
-            "Pour fuir la colère de l'empereur, Renaud est obligé de s'éloigner de la cour. Il se refugie d'abord chez son père qui le chasse de la forteresse de Dordone. Monté avec ses trois frères sur leur unique cheval Bayard, ils s'enfoncent dans la mystérieuse forêt d'Ardenne et sèment rapidement leurs poursuivants grâce aux pouvoirs magiques de Bayard qui est capable de franchir une vallée d'un seul saut. Là, avec l'aide de leur cousin, Maugis, enchanteur et un peu voleur, ils construisent la forteresse de Montessor sur un rocher surplombant la Meuse.\n"
-            "Mais au bout de sept ans Charlemagne connaît leur retraite et il fait le siège du château avec une troupe importante. A cause de la traitrise d'Hervé de Lausanne, qui profite de l'hospitalité des fils Aymon pour en ouvrir la herse durant la nuit, le château est sur le point d'être pris les quatre frères s'enfuient du château et se réfugient une nouvelle fois dans les profondeurs de la forêt ardennaise. Tous quatre, Renault, Allard, Richard et Guichard(et), sur leur cheval magique Bayard, fuient sans cesse et franchissent la Meuse d'un bond immense.\n"
-            "Fuyant vers le sud Ils se mettent au service du roi Yvon de Gascogne. Ils sont une aide précieuse lors des combats qui opposent les troupes du roi Yvon de celles de l’émir Beges. En remerciement le roi donne à Renault la main de sa soeur Aélis et des terres. Renaud va y faire construire un château qu'il nomme Montauban « parce qu'il est construit sur une montagne de marbre ». Mais Charlemagne les retrouve. Il leur tend un piège en les envoyant affronter, désarmés, plusieurs armées durant la bataille de Vaucouleurs.\n"
-            "Roland et les douze pairs négocient la paix entre les différents protagonistes. Charlemagne accorde le pardon aux quatre frères et à leurs familles. La colère de Charlemagne ne s'apaisera qu'avec le sacrifice de Bayard, précipité dans la Meuse mais le cheval parvient toutefois à s'enfuir dans la forêt. Et par les nuits sans lune, le fougueux destrier revient parfois hanter la forêt d'Ardenne.\n"
-            "D'autre part Renaud doit renoncer au métier des armes et faire un pèlerinage à Jérusalem. A son retour il participe à la construction de la cathédrale de Cologne. Les ouvriers jaloux l’assassinent, car Renaud travaille plus que quiconque sans demander de salaire autre qu'un peu de nourriture. ";
-    Effet* histoireAymon = m_GenerateurEvt->AjouterEffetNarration(txtAymon, "", "choixFilsAymon");
-    histoireAymon->m_GoToEffetId = GenPrologueArdennes::ID_EF_APRES_HISTOIRE_ERMITE;
+    m_GenerateurEvt->AjouterEffetNarration("Afin d'être fait chevalier, Les fils Aymon Allard, Guichard, Renaud et Richard(et) partent à la cour de l'empereur et le servent honorablement. Mais à la suite d'une discussion qui survient au cours d'une partie d'échecs, Renaud blesse mortellement Bertolai, le neveu de Charlemagne.\n"
+                                           , "", "choixFilsAymon");
+    m_GenerateurEvt->AjouterEffetNarration("Pour fuir la colère de l'empereur, Renaud est obligé de s'éloigner de la cour. Il se refugie d'abord chez son père qui le chasse de la forteresse de Dordone. Monté avec ses trois frères sur leur unique cheval Bayard, ils s'enfoncent dans la mystérieuse forêt d'Ardenne et sèment rapidement leurs poursuivants grâce aux pouvoirs magiques de Bayard qui est capable de franchir une vallée d'un seul saut. Là, avec l'aide de leur cousin, Maugis, enchanteur et un peu voleur, ils construisent la forteresse de Montessor sur un rocher surplombant la Meuse.\n",
+                                           ":/Images/Ardennes/Bayard.jpg");
+    m_GenerateurEvt->AjouterEffetNarration("Mais au bout de sept ans Charlemagne connaît leur retraite et il fait le siège du château avec une troupe importante. A cause de la traitrise d'Hervé de Lausanne, qui profite de l'hospitalité des fils Aymon pour en ouvrir la herse durant la nuit, le château est sur le point d'être pris les quatre frères s'enfuient du château et se réfugient une nouvelle fois dans les profondeurs de la forêt ardennaise. Tous quatre, Renault, Allard, Richard et Guichard(et), sur leur cheval magique Bayard, fuient sans cesse et franchissent la Meuse d'un bond immense.\n");
+    m_GenerateurEvt->AjouterEffetNarration("Fuyant vers le sud Ils se mettent au service du roi Yvon de Gascogne. Ils sont une aide précieuse lors des combats qui opposent les troupes du roi Yvon de celles de l’émir Beges. En remerciement le roi donne à Renault la main de sa soeur Aélis et des terres. Renaud va y faire construire un château qu'il nomme Montauban « parce qu'il est construit sur une montagne de marbre ». Mais Charlemagne les retrouve. Il leur tend un piège en les envoyant affronter, désarmés, plusieurs armées durant la bataille de Vaucouleurs.\n");
+    m_GenerateurEvt->AjouterEffetNarration("Roland et les douze pairs négocient la paix entre les différents protagonistes. Charlemagne accorde le pardon aux quatre frères et à leurs familles. La colère de Charlemagne ne s'apaisera qu'avec le sacrifice de Bayard, précipité dans la Meuse mais le cheval parvient toutefois à s'enfuir dans la forêt. Et par les nuits sans lune, le fougueux destrier revient parfois hanter la forêt d'Ardenne.\n",
+                                           "");
+    Effet* histoireAymon = m_GenerateurEvt->AjouterEffetNarration("D'autre part Renaud doit renoncer au métier des armes et faire un pèlerinage à Jérusalem. A son retour il participe à la construction de la cathédrale de Cologne. Les ouvriers jaloux l’assassinent, car Renaud travaille plus que quiconque sans demander de salaire autre qu'un peu de nourriture. ",
+                                                                  "", "choixFilsAymon");
+    histoireAymon->m_GoToEffetId = GenPrologueArdennes::ID_EF_OIE;
+
+    // effet Saint Hubert
+    m_GenerateurEvt->AjouterEffetNarration("Depuis le XVe siècle on dit que le seigneur Hubert était si passionné de chasse qu'il en oubliait ses devoirs. La légende rapporte qu'il n'avait pu résister à sa passion un Vendredi saint, et n'ayant trouvé personne pour l'accompagner, était parti chasser sans aucune compagnie. À cette occasion, il se trouva face à un cerf extraordinaire7. En effet, celui-ci était blanc et portait une croix lumineuse au milieu de ses bois."
+                                           , "", "histoireSaintLaurent");
+    m_GenerateurEvt->AjouterEffetNarration("Hubert se mit à pourchasser le cerf mais celui-ci parvenait toujours à le distancer sans pour autant se fatiguer. Ce n’est qu’au bout d’un long moment que l'animal s’arrêta et qu’une voix tonna dans le ciel en s’adressant à Hubert en ces termes :\n\" Hubert ! Hubert ! Jusqu'à quand poursuivras-tu les bêtes dans les forêts ? Jusqu'à quand cette vaine passion te fera-t-elle oublier le salut de ton âme ? \". Hubert, saisi d'effroi, se jeta à terre et humblement, il interrogea la vision :\n \n Seigneur ! Que faut-il que je fasse ? \"");
+    m_GenerateurEvt->AjouterEffetNarration("La voix reprit :\n\" Va donc auprès de Lambert, mon évêque, à Maastricht. Convertis-toi. Fais pénitence de tes péchés, ainsi qu'il te sera enseigné. Voilà ce à quoi tu dois te résoudre pour n'être point damné dans l'éternité. Je te fais confiance, afin que mon Église, en ces régions sauvages, soit par toi grandement fortifiée. \"");
+    Effet* effetFinHubert = m_GenerateurEvt->AjouterEffetNarration("Et Hubert de répondre, avec force et enthousiasme :\n« Merci, ô Seigneur. Vous avez ma promesse.\nJe ferai pénitence, puisque vous le voulez.\nJe saurai en toutes choses me montrer digne de vous ! »", ":/Images/Ardennes/SaintHubert.jpg");
+    effetFinHubert->m_GoToEffetId = GenPrologueArdennes::ID_EF_OIE;
+
+    return effet;
+}
+
+Effet* GenPrologueArdennes::GenererOieSauvage()
+{
+    Effet* effet = m_GenerateurEvt->AjouterEffetNarration("Vous reprenez votre exploration au petit mâtin. Vous approchez d'une claière où vous espérez avoir une meilleure vue des environ quand, au bord d'un étang,"
+                                                          "vous appercevez une oie bernache qui semble blessée. En vous approchant et en la voyant boiter il vous paraît clair qu'elle est gravement blessée.",
+                                                          ":/Images/Ardennes/bernache.du.canada.auau.3g.jpg", GenPrologueArdennes::ID_EF_OIE);
+
+    /*Choix* choix1 = */m_GenerateurEvt->AjouterChoixGoToEffet(
+                 "Justement vous avez grand faim. Vous la tuez immédiatement.", "mangerOie");
+
+    Choix* choixEspritAnimal = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "Vous invoquez son esprit animal et priez pour elle.", GenPrologueArdennes::PRIO_RELIGION, "1");
+    choixEspritAnimal->m_GoToEffetId = "espritAnimal";
+
+    Choix* choixParler = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "Vous tentez de lui parler.", GenPrologueArdennes::PRIO_FEERIE, "1");
+    choixParler->m_GoToEffetId = "parlerOie";
+
+    // "espritAnimal"
+    /*Effet* espritAnimal = */m_GenerateurEvt->AjouterEffetNarration("Après un recours recueillement il vous semble sentir que l'oie souffre énormément.",
+                                                                 "", "espritAnimal");
+
+    m_GenerateurEvt->AjouterChoixGoToEffet("Vous la tuez le plus rapidement et humainement possible.",
+                                           "tuerOieGentiment");
+    m_GenerateurEvt->AjouterChoixGoToEffet("Vous la tuez le plus rapidement et humainement possible, puis la mangez",
+                                           "mangerOie");
+    m_GenerateurEvt->AjouterChoixGoToEffet("Vous la soignez autant que possible puis vous partez", "soignerOie");
+
+    // "mangerOie"
+    Effet* mangerOie = m_GenerateurEvt->AjouterEffetNarration("Vous tuez facielement l'oie qui semblait à peine capable de marcher.",
+                                                              "", "mangerOie");
+    m_GenerateurEvt->AjouterChoixGoToEffet("Vous essayez de faire un bon feu pour la cuire.", "cuireOie");
+    m_GenerateurEvt->AjouterChoixAjouteurACarac("Vous être un cuisiner expert. Trouver les herbes dans les environs et faire un feu va être un jeu d'enfant.",
+                                                GenPrologueArdennes::PRIO_TRAVAIL, "1", "cuireOie");
+    m_GenerateurEvt->AjouterChoixAjouteurACarac("Vous la mangez crue", URevolution::VOLONTE, "1", "mangerOieCrue");
+
+    // "parlerOie"
+    Effet* effetParlerOie =  m_GenerateurEvt->AjouterEffetNarration("Elle ne répond rien. C'est une oie.", "", "parlerOie");
+    effetParlerOie->m_GoToEffetId = GenPrologueArdennes::ID_EF_OIE;
+
+    // "cuireOie"
+    Effet* efMangerOie = m_GenerateurEvt->AjouterEffetNarration("C'était un délice, surtout après une si longue errance en forêt. Une oie est cependant beaucoup trop de nourriture pour une personne seule.",
+                                                                "", "cuireOie");
+    m_GenerateurEvt->AjouterChoixAjouteurACarac("Pas pour vous. Vous mangerJusqu'à finir l'oie toute entière !",
+                                                URevolution::PUISSANCE, "1", GenPrologueArdennes::ID_EF_PROCHAIN_EFFET);
+    m_GenerateurEvt->AjouterChoixAjouteurACarac("Vous stockez aussi proprement que possible la viande qui vous reste dans votre sac à dos.",
+                                                GenPrologueArdennes::PRIO_ORDRE, "1", GenPrologueArdennes::ID_EF_PROCHAIN_EFFET);
+    m_GenerateurEvt->AjouterChoixGoToEffet("Vous repartez l'estomac bien rempli et le coeur léger.",
+                                                GenPrologueArdennes::ID_EF_PROCHAIN_EFFET);
 
     return effet;
 }
@@ -179,8 +246,9 @@ Effet* GenPrologueArdennes::GenererHistoireErmite()
 void GenPrologueArdennes::GenererEvtsAccueil()
 {
     this->AjouterEvt("Debut", "Génération du perso par les choix");
-    //GenererEveil();
-    //GenererHommeSauvage();
+    GenererEveil();
+    GenererHommeSauvage();
     GenererHistoireErmite();
+    GenererOieSauvage();
 
 }
