@@ -22,6 +22,7 @@ protected:
     static QString ID_EF_HISTOIRE_ERMITE;
     static QString ID_EF_OIE;
     static QString ID_EF_PERDU;
+    static QString ID_EF_AUBERON;
 
     static QString ID_EF_PROCHAIN_EFFET;
 
@@ -47,6 +48,7 @@ private:
     Effet* GenererHistoireErmite(QString idDebut, QString idFin);
     Effet* GenererOieSauvage(QString idDebut, QString idFin);
     Effet* GenererPerdu(QString idDebut, QString idFin);
+    Effet* GenererAuberon(QString idDebut, QString idFin);
 };
 
 #endif // GENPROLOGUEARDENNES_H

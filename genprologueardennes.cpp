@@ -54,6 +54,7 @@ QString GenPrologueArdennes::ID_EF_HOMME_SAUVAGE = "Homme Sauvage";
 QString GenPrologueArdennes::ID_EF_HISTOIRE_ERMITE = "Histoire ermite";
 QString GenPrologueArdennes::ID_EF_OIE = "Oie";
 QString GenPrologueArdennes::ID_EF_PERDU = "Perdu";
+QString GenPrologueArdennes::ID_EF_AUBERON = "Aubéron";
 
 QString GenPrologueArdennes::ID_EF_PROCHAIN_EFFET = "id prochain effet";
 
@@ -239,7 +240,7 @@ Effet* GenPrologueArdennes::GenererOieSauvage(QString idDebut, QString idFin)
     m_GenerateurEvt->AjouterChoixAjouteurACarac("Vous stockez aussi proprement que possible la viande qui vous reste dans votre sac à dos.",
                                                 GenPrologueArdennes::PRIO_ORDRE, "1", idFin);
     m_GenerateurEvt->AjouterChoixGoToEffet("Vous repartez l'estomac bien rempli et le coeur léger.",
-                                                GenPrologueArdennes::ID_EF_PERDU);
+                                                idFin);
 
     return effet;
 }
@@ -287,6 +288,42 @@ Effet* GenPrologueArdennes::GenererPerdu(QString idDebut, QString idFin)
     return effet;
 }
 
+Effet* GenPrologueArdennes::GenererAuberon(QString idDebut, QString idFin)
+{
+    Effet* effet = m_GenerateurEvt->AjouterEffetNarration("Au détour d'un petit sentier vous croisez un grotesque nain contrefait et bossu. "
+           "Il marche en plein milieu du sentier et vous repousse ostensiblement sur le côté en criant de lui laisser la place à lui qui est Aubéron, le seigneur fée de la forêt des ardennes.",
+           "", idDebut);
+
+    Choix* choixImposteur = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "Vous le traitez d'imposteur. Il n'y a pas de fées.", GenPrologueArdennes::PRIO_LUMIERE, "1");
+    choixImposteur->m_GoToEffetId = "imposteur";
+
+    Choix* choixDuel = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "Vous le défiez de prouver qui il est en vous affrontant dans une épreuve.",
+                GenPrologueArdennes::PRIO_NOBLESSE, "1");
+    choixDuel->m_GoToEffetId = "duel";
+
+    Choix* choixFeerie = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "Vous le croyez sur parole et le laissez passer respectueusement.",
+                GenPrologueArdennes::PRIO_FEERIE, "1");
+    choixFeerie->m_GoToEffetId = idFin;
+
+    Choix* choixFlatterie = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "Vous le charmer par un clin d'oeil complice et une flatterie recherchée.",
+                URevolution::CHARISME, "1");
+    choixFlatterie->m_GoToEffetId = "choixFlatterie";
+
+    Choix* choixFonce = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "Vous foncez droit sur lui sans vous arrêter.",
+                URevolution::VOLONTE, "1");
+    choixFonce->m_GoToEffetId = "choixFonce";
+
+    Choix* choixRien = m_GenerateurEvt->AjouterChoixGoToEffet(
+                 "Vous le laissez passer pour ne pas créer d'histoire.", idFin);
+
+    return effet;
+}
+
 void GenPrologueArdennes::GenererEvtsAccueil()
 {
     this->AjouterEvt("Debut", "Génération du perso par les choix");
@@ -294,6 +331,7 @@ void GenPrologueArdennes::GenererEvtsAccueil()
     GenererHommeSauvage     (ID_EF_HOMME_SAUVAGE,   ID_EF_PERDU);
     GenererPerdu            (ID_EF_PERDU,           ID_EF_HISTOIRE_ERMITE);
     GenererHistoireErmite   (ID_EF_HISTOIRE_ERMITE, ID_EF_OIE);
-    GenererOieSauvage       (ID_EF_OIE,             ID_EF_PROCHAIN_EFFET);
+    GenererOieSauvage       (ID_EF_OIE,             ID_EF_AUBERON);
+    GenererAuberon          (ID_EF_AUBERON,         ID_EF_PROCHAIN_EFFET);
 
 }
