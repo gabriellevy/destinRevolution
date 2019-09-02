@@ -23,8 +23,7 @@ public:
     static QString CHARISME;
     static QString INTELLIGENCE;
     static QString VOLONTE;
-    //compétences
-    static QString COMP_ARME;
+    static QString PERCEPTION;
 
 private:
 

@@ -21,6 +21,8 @@ protected:
     static QString ID_EF_HOMME_SAUVAGE;
     static QString ID_EF_HISTOIRE_ERMITE;
     static QString ID_EF_OIE;
+    static QString ID_EF_PERDU;
+
     static QString ID_EF_PROCHAIN_EFFET;
 
     // caracs temporaires qui calculent les priorités du personnages dans les diverses valeurs pour déterminer ses caracs à la fin du jeu
@@ -40,11 +42,11 @@ private:
     void GenererEvtsAccueil();
 
     // génération de tous les effets (mini événements)
-    Effet* GenererEveil();
-    Effet* GenererHommeSauvage();
-    Effet* GenererHistoireErmite();
-    Effet* GenererOieSauvage();
-
+    Effet* GenererEveil(QString idDebut, QString idFin);
+    Effet* GenererHommeSauvage(QString idDebut, QString idFin);
+    Effet* GenererHistoireErmite(QString idDebut, QString idFin);
+    Effet* GenererOieSauvage(QString idDebut, QString idFin);
+    Effet* GenererPerdu(QString idDebut, QString idFin);
 };
 
 #endif // GENPROLOGUEARDENNES_H

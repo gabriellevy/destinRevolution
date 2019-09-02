@@ -2,8 +2,7 @@
 #include "ui_univers.h"
 #include "genprologueardennes.h"
 
-QString URevolution::COMP_ARME = "Arme";
-
+QString URevolution::PERCEPTION = "Perception";
 QString URevolution::HABILETE = "Habileté";
 QString URevolution::PUISSANCE = "Puissance";
 QString URevolution::CHARISME = "Charisme";

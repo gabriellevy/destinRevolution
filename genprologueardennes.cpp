@@ -53,13 +53,14 @@ QString GenPrologueArdennes::ID_EF_ACCUEIL = "Eveil";
 QString GenPrologueArdennes::ID_EF_HOMME_SAUVAGE = "Homme Sauvage";
 QString GenPrologueArdennes::ID_EF_HISTOIRE_ERMITE = "Histoire ermite";
 QString GenPrologueArdennes::ID_EF_OIE = "Oie";
+QString GenPrologueArdennes::ID_EF_PERDU = "Perdu";
 
 QString GenPrologueArdennes::ID_EF_PROCHAIN_EFFET = "id prochain effet";
 
-Effet* GenPrologueArdennes::GenererHommeSauvage()
+Effet* GenPrologueArdennes::GenererHommeSauvage(QString idDebut, QString idFin)
 {
     Effet* effet = m_GenerateurEvt->AjouterEffetNarration("Vous vous approchez discrètement. Le bruit que vous faites est de toute façon couvert par les cris de femmes qui redoublent au fur et à mesure que vous vous approchez. Enfin, après avoir passé un buisson vous appercevez à quelques centaines de mètres un bien étrange spectacle. C'est bien une femme qui crie. Une grande paysanne rousse grassouillette, et elle se trouve sur l'épaule d'un très grand homme apparemment nu mais extraordinairement poilu. C'est un homme sauvage ! Et la femme qui se débat désespérément est sans doute une pauvre villageoise qu'il a enlevé pour assouvir la lubricité typique de sa race.",
-                                                          ":/Images/Ardennes/HommeSauvage.jpg", GenPrologueArdennes::ID_EF_HOMME_SAUVAGE);
+                                                          ":/Images/Ardennes/HommeSauvage.jpg", idDebut);
     // les choix
     Choix* choixCombat = m_GenerateurEvt->AjouterChoixAjouteurACarac(
                  "Vous sortez votre arme et le chargez", GenPrologueArdennes::PRIO_FORCE, "1");
@@ -75,7 +76,7 @@ Effet* GenPrologueArdennes::GenererHommeSauvage()
 
     Choix* choixEviter = m_GenerateurEvt->AjouterChoixAjouteurACarac(
                  "Vous préférez ne pas vous en mêler. Ce n'est pas à vous de régler les conflits entre sauvages et civilisés", GenPrologueArdennes::PRIO_LIBERTE, "1");
-    choixEviter->m_GoToEffetId = GenPrologueArdennes::ID_EF_HISTOIRE_ERMITE;// fin de l'événement
+    choixEviter->m_GoToEffetId = idFin;// fin de l'événement
 
     // embuscade
     Effet* embuscade = m_GenerateurEvt->AjouterEffetNarration("Vous parvenez à le doubler rapidement. Il a beau être très grand il est très ralenti par son fardeau. Vous vous postez dans un arbre et, comme prévu, il va passer dessous dans une dizaine de secondes.",
@@ -102,15 +103,15 @@ Effet* GenPrologueArdennes::GenererHommeSauvage()
     return effet;
 }
 
-Effet* GenPrologueArdennes::GenererEveil()
+Effet* GenPrologueArdennes::GenererEveil(QString idDebut, QString idFin)
 {
     Effet* eveil = m_GenerateurEvt->AjouterEffetNarration("Vous vous éveillez en plein forêt des ardennes et en pleine nuit, l'esprit enbrumé mais le corps hardi. Malgré le danger de votre situation il vous semble que tout vous est possible aujourd'hui et que cette forêt sombre et menaçante est la vôtre. Que faites vous ?",
-                                                          "", GenPrologueArdennes::ID_EF_ACCUEIL);
+                                                          "", idDebut);
 
     // les choix
     Choix* choixExplorer = m_GenerateurEvt->AjouterChoixAjouteurACarac(
                  "Vous partez explorer au hasard", GenPrologueArdennes::PRIO_LIBERTE, "1");
-    choixExplorer->m_GoToEffetId = GenPrologueArdennes::ID_EF_HOMME_SAUVAGE;
+    choixExplorer->m_GoToEffetId = idFin;
 
     Choix* choixManger = m_GenerateurEvt->AjouterChoixAjouteurACarac(
                  "Parons au plus pressé : vous cherchez si il y a trace de fruits comestibles dans les environs ou d'animaux à chasser",
@@ -129,13 +130,13 @@ Effet* GenPrologueArdennes::GenererEveil()
     return eveil;
 }
 
-Effet* GenPrologueArdennes::GenererHistoireErmite()
+Effet* GenPrologueArdennes::GenererHistoireErmite(QString idDebut, QString idFin)
 {
     QString txtErmite = "Vous vous éloignez et, sans vraiment savoir pourquoi ni vers où, vous vous remettez à vous enfoncer dans la forêt. Après quelques minutes seulement vous appercevez un feu au loin. Il s'agit d'un feu maîtrisé, sans doute allumé par un voyageur. Vous croyiez vous être élancé au hasard dans la forêt mais vos pas vous menaient droit vers ce feu avant même que vous ne le voyiez. Est-ce le froid, la solitude ou autre chose ? Vous ne pouvez résister à l'appel du feu de camps et vous approchez, en prenant le minimum de précautions.\n"
                   "Il semble en effet ne pas y avoir de risques : la seule personne assise près du modeste feu de fois est un très vieil homme barbu et frêle. Il est habillé à la manière rustique d'un forestier mais ses habits sont si abimés qu'il ressemble plutôt à un vagabond ou à un ermite.\n"
                   "À votre approche il ne vous dit pas un mot et se contente de vous tendre ce qui semble être son unique repas : une belle pomme bien mûre.\n"
                   "Ne prêtant aucun attention à votre réaction et ne vous regardant même pas dans les yeux il se contente de dire gravement : \"Vous avez une chance rare étranger. Vous vous tenez en face de la mémoire vivante de la forêt des ardennes. J'habite ces bois depuis plus de 2000 ans et rares sont les humains qui me trouvent. Assurément une force vous a mené ici. J'ignore pourquoi car je ne suis vraiment d'aucune utilité à un aventurier. Je ne suis rien d'autre qu'une mémoire qui raconte des histoires. Peut-être est-ce qu'il vous faut pour passer cette froide nuit. Voudriez vous en entendre une ?\"";
-    Effet* effet = m_GenerateurEvt->AjouterEffetNarration(txtErmite, "", GenPrologueArdennes::ID_EF_HISTOIRE_ERMITE);
+    Effet* effet = m_GenerateurEvt->AjouterEffetNarration(txtErmite, "", idDebut);
 
     // les choix
     Choix* choixHistoireCharlemagne = m_GenerateurEvt->AjouterChoixAjouteurACarac(
@@ -149,7 +150,7 @@ Effet* GenPrologueArdennes::GenererHistoireErmite()
     Choix* choixPasHistoire = m_GenerateurEvt->AjouterChoixAjouteurACarac(
                  "Peu m'importe le passé seul compte le présent et le futur qui en sera issu. Si vous ne pouvez m'aider je préfère dormir jusqu'au matin.",
                 GenPrologueArdennes::PRIO_LUMIERE, "1");
-    choixPasHistoire->m_GoToEffetId =  GenPrologueArdennes::ID_EF_OIE;
+    choixPasHistoire->m_GoToEffetId = idFin;
 
     Choix* choixSaintLaurent = m_GenerateurEvt->AjouterChoixAjouteurACarac(
                  "Avez vous rencontré le pieu Saint Hubert ? On dit qu'il a été ermite dans cette forêt.", GenPrologueArdennes::PRIO_RELIGION, "1");
@@ -178,7 +179,7 @@ Effet* GenPrologueArdennes::GenererHistoireErmite()
                                            "");
     Effet* histoireAymon = m_GenerateurEvt->AjouterEffetNarration("D'autre part Renaud doit renoncer au métier des armes et faire un pèlerinage à Jérusalem. A son retour il participe à la construction de la cathédrale de Cologne. Les ouvriers jaloux l’assassinent, car Renaud travaille plus que quiconque sans demander de salaire autre qu'un peu de nourriture. ",
                                                                   "", "choixFilsAymon");
-    histoireAymon->m_GoToEffetId = GenPrologueArdennes::ID_EF_OIE;
+    histoireAymon->m_GoToEffetId = idFin;
 
     // effet Saint Hubert
     m_GenerateurEvt->AjouterEffetNarration("Depuis le XVe siècle on dit que le seigneur Hubert était si passionné de chasse qu'il en oubliait ses devoirs. La légende rapporte qu'il n'avait pu résister à sa passion un Vendredi saint, et n'ayant trouvé personne pour l'accompagner, était parti chasser sans aucune compagnie. À cette occasion, il se trouva face à un cerf extraordinaire7. En effet, celui-ci était blanc et portait une croix lumineuse au milieu de ses bois."
@@ -186,16 +187,16 @@ Effet* GenPrologueArdennes::GenererHistoireErmite()
     m_GenerateurEvt->AjouterEffetNarration("Hubert se mit à pourchasser le cerf mais celui-ci parvenait toujours à le distancer sans pour autant se fatiguer. Ce n’est qu’au bout d’un long moment que l'animal s’arrêta et qu’une voix tonna dans le ciel en s’adressant à Hubert en ces termes :\n\" Hubert ! Hubert ! Jusqu'à quand poursuivras-tu les bêtes dans les forêts ? Jusqu'à quand cette vaine passion te fera-t-elle oublier le salut de ton âme ? \". Hubert, saisi d'effroi, se jeta à terre et humblement, il interrogea la vision :\n \n Seigneur ! Que faut-il que je fasse ? \"");
     m_GenerateurEvt->AjouterEffetNarration("La voix reprit :\n\" Va donc auprès de Lambert, mon évêque, à Maastricht. Convertis-toi. Fais pénitence de tes péchés, ainsi qu'il te sera enseigné. Voilà ce à quoi tu dois te résoudre pour n'être point damné dans l'éternité. Je te fais confiance, afin que mon Église, en ces régions sauvages, soit par toi grandement fortifiée. \"");
     Effet* effetFinHubert = m_GenerateurEvt->AjouterEffetNarration("Et Hubert de répondre, avec force et enthousiasme :\n« Merci, ô Seigneur. Vous avez ma promesse.\nJe ferai pénitence, puisque vous le voulez.\nJe saurai en toutes choses me montrer digne de vous ! »", ":/Images/Ardennes/SaintHubert.jpg");
-    effetFinHubert->m_GoToEffetId = GenPrologueArdennes::ID_EF_OIE;
+    effetFinHubert->m_GoToEffetId = idFin;
 
     return effet;
 }
 
-Effet* GenPrologueArdennes::GenererOieSauvage()
+Effet* GenPrologueArdennes::GenererOieSauvage(QString idDebut, QString idFin)
 {
     Effet* effet = m_GenerateurEvt->AjouterEffetNarration("Vous reprenez votre exploration au petit mâtin. Vous approchez d'une claière où vous espérez avoir une meilleure vue des environ quand, au bord d'un étang,"
                                                           "vous appercevez une oie bernache qui semble blessée. En vous approchant et en la voyant boiter il vous paraît clair qu'elle est gravement blessée.",
-                                                          ":/Images/Ardennes/bernache.du.canada.auau.3g.jpg", GenPrologueArdennes::ID_EF_OIE);
+                                                          ":/Images/Ardennes/bernache.du.canada.auau.3g.jpg", idDebut);
 
     /*Choix* choix1 = */m_GenerateurEvt->AjouterChoixGoToEffet(
                  "Justement vous avez grand faim. Vous la tuez immédiatement.", "mangerOie");
@@ -234,11 +235,54 @@ Effet* GenPrologueArdennes::GenererOieSauvage()
     Effet* efMangerOie = m_GenerateurEvt->AjouterEffetNarration("C'était un délice, surtout après une si longue errance en forêt. Une oie est cependant beaucoup trop de nourriture pour une personne seule.",
                                                                 "", "cuireOie");
     m_GenerateurEvt->AjouterChoixAjouteurACarac("Pas pour vous. Vous mangerJusqu'à finir l'oie toute entière !",
-                                                URevolution::PUISSANCE, "1", GenPrologueArdennes::ID_EF_PROCHAIN_EFFET);
+                                                URevolution::PUISSANCE, "1", idFin);
     m_GenerateurEvt->AjouterChoixAjouteurACarac("Vous stockez aussi proprement que possible la viande qui vous reste dans votre sac à dos.",
-                                                GenPrologueArdennes::PRIO_ORDRE, "1", GenPrologueArdennes::ID_EF_PROCHAIN_EFFET);
+                                                GenPrologueArdennes::PRIO_ORDRE, "1", idFin);
     m_GenerateurEvt->AjouterChoixGoToEffet("Vous repartez l'estomac bien rempli et le coeur léger.",
-                                                GenPrologueArdennes::ID_EF_PROCHAIN_EFFET);
+                                                GenPrologueArdennes::ID_EF_PERDU);
+
+    return effet;
+}
+
+Effet* GenPrologueArdennes::GenererPerdu(QString idDebut, QString idFin)
+{
+
+    Effet* effet = m_GenerateurEvt->AjouterEffetNarration("Après des heures à errer dans la forêt force vous est de reconnaître que non seulement vous ne parvenez pas à vous repérer mais vous ne parvenez même pas à appercevoir le ciel tant la forêt est dense. Et l'aube tarde. Vous avez pourtant le sentiment d'avoir marché tout une nuit. Le désespoir vous gagne.",
+                                                          "", idDebut);
+
+    Choix* choixArduinna = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "Vous priez Arduinna la divinité du monde sauvage et de la forêt des ardennes.", GenPrologueArdennes::PRIO_RELIGION, "1");
+    choixArduinna->AjouterAjouteurACarac(GenPrologueArdennes::PRIO_FEERIE, "1");
+    choixArduinna->m_GoToEffetId = "prieresEntendues";
+
+    Choix* choixHubert = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "Vous priez Saint Hubert, saint patron de la forêt et de la chasse.", GenPrologueArdennes::PRIO_RELIGION, "1");
+    choixHubert->m_GoToEffetId = "prieresEntendues";
+
+    Choix* choixErrer = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "Vous continuez à errer infatigablement.", URevolution::PUISSANCE, "1");
+    choixErrer->m_GoToEffetId = idFin;
+
+    Choix* choixSavoir = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                "Vous réfléchissez profondément à vos études et vos connaissances. Peut-être que vos connaissance en biologie, géologie et astronomie pourront vous sortir d'ici.",
+                PRIO_SAVOIR, "1");
+    choixSavoir->m_GoToEffetId = "reflexion";
+
+    Choix* choixRager = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                "Vous ragez contre le chaos de la forêt. Cela ne serait pas arrivé dans un endroit civilisé.",
+                PRIO_ORDRE, "1");
+    choixSavoir->m_GoToEffetId = idFin;
+
+    Choix* choixEcouter = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                "Vous faites une pause pour vous concentrer sur votre en vironnement. Tout écouter, tout regarder, tout percevoir.",
+                URevolution::PERCEPTION, "1");
+    choixEcouter->m_GoToEffetId = idFin;
+
+    Choix* choixChanter = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                "Vous sifflez une chanson pour vous donner du courage.",
+                PRIO_ART, "1");
+    choixChanter->m_GoToEffetId = idFin;
+
 
     return effet;
 }
@@ -246,9 +290,10 @@ Effet* GenPrologueArdennes::GenererOieSauvage()
 void GenPrologueArdennes::GenererEvtsAccueil()
 {
     this->AjouterEvt("Debut", "Génération du perso par les choix");
-    GenererEveil();
-    GenererHommeSauvage();
-    GenererHistoireErmite();
-    GenererOieSauvage();
+    GenererEveil(           ID_EF_ACCUEIL,          ID_EF_HOMME_SAUVAGE);
+    GenererHommeSauvage     (ID_EF_HOMME_SAUVAGE,   ID_EF_PERDU);
+    GenererPerdu            (ID_EF_PERDU,           ID_EF_HISTOIRE_ERMITE);
+    GenererHistoireErmite   (ID_EF_HISTOIRE_ERMITE, ID_EF_OIE);
+    GenererOieSauvage       (ID_EF_OIE,             ID_EF_PROCHAIN_EFFET);
 
 }
