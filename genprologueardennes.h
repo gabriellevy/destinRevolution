@@ -25,6 +25,8 @@ protected:
     static QString ID_EF_AUBERON;
     static QString ID_EF_DOLMEN;
     static QString ID_EF_ARBRE_SACRE;
+    static QString ID_EF_COCAGNE;
+    static QString ID_EF_NUAGES;
 
     static QString ID_EF_PROCHAIN_EFFET;
 
@@ -53,6 +55,9 @@ private:
     Effet* GenererAuberon(QString idDebut, QString idFin);
     Effet* GenererDolmen(QString idDebut, QString idFin);
     Effet* GenererArbreSacre(QString idDebut, QString idFin);
+    Effet* GenererCocagne(QString idDebut, QString idFin);
+    Effet* GenererNuages(QString idDebut, QString idFin);
+
 };
 
 #endif // GENPROLOGUEARDENNES_H

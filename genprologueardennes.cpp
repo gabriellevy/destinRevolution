@@ -57,6 +57,8 @@ QString GenPrologueArdennes::ID_EF_PERDU = "Perdu";
 QString GenPrologueArdennes::ID_EF_AUBERON = "Aubéron";
 QString GenPrologueArdennes::ID_EF_DOLMEN = "Dolmen";
 QString GenPrologueArdennes::ID_EF_ARBRE_SACRE = "Arbre sacré";
+QString GenPrologueArdennes::ID_EF_COCAGNE = "Cocagne";
+QString GenPrologueArdennes::ID_EF_NUAGES = "Mer de nuages";
 
 QString GenPrologueArdennes::ID_EF_PROCHAIN_EFFET = "id prochain effet";
 
@@ -379,6 +381,51 @@ Effet* GenPrologueArdennes::GenererDolmen(QString idDebut, QString idFin)
     return effet;
 }
 
+Effet* GenPrologueArdennes::GenererCocagne(QString idDebut, QString idFin)
+{
+    Effet* effet = AjouterEffetNarration("Vous débouchez dans une vaste clairière. Alors qu'il y a deux pas vous étiez trempé par une pluie assourdissante vous êtes maintenant au sec bercé par une douce musique. Alors que vous étiez seul et entouré de bêtes sauvages voilà que vous êtes environné de jeunes gens beaux et joyeux. Le vin jaillit des fontaines.",
+           "", idDebut);
+
+    AjouterChoixAjouteurACarac(
+                 "Cela ne se peut. La faim et la soif on du vous faire délirer.",
+                GenPrologueArdennes::PRIO_LUMIERE, "1", idFin);
+
+    Choix* choixAbstinence = AjouterChoixAjouteurACarac(
+                 "Quel pays de débauchés molassons. Vous prenez juste de quoi vous restaurer puis reprenez votre route.",
+                GenPrologueArdennes::PRIO_ORDRE, "1", idFin);
+    choixAbstinence->AjouterAjouteurACarac(URevolution::VOLONTE, "1");
+
+    AjouterChoixAjouteurACarac(
+                 "Les jeunes gens n'ont pas l'air farouche. Après vous être bien restauré vous cherchez quelqu'un avec qui batifoler.",
+                GenPrologueArdennes::PRIO_LIBERTE, "1", idFin);
+
+    AjouterChoixGoToEffet(
+                 "Le pays de cocagne ! Vous vous jetez sur vos mets préférés en vous chauffant au soleil de ce pays enchanteur.", idFin);
+
+    return effet;
+}
+
+Effet* GenPrologueArdennes::GenererNuages(QString idDebut, QString idFin)
+{
+    Effet* effet = AjouterEffetNarration("Après une âpre escalade d'un mont du haut duquel vous pourrez mieux évaluer votre situation vous vous retrouvez au dessus d'une mer de nuages. Quels sont vos sentiments à ce spectacle grandiose ?",
+           "", idDebut);
+
+    AjouterChoixAjouteurACarac(
+                 "Un sentiment de puissance vous submerge. Vous avez vaincu la montagne. En observant les alentours vous vaincrez la forêt.",
+                URevolution::PUISSANCE, "1", idFin);
+    AjouterChoixAjouteurACarac(
+                 "Gloire à Dieu qui seul à pu créer une telle beauté.",
+                GenPrologueArdennes::PRIO_RELIGION, "1", idFin);
+    AjouterChoixAjouteurACarac(
+                 "Et ainsi la supériorité de l'homme dompte la nature.",
+                GenPrologueArdennes::PRIO_LUMIERE, "1", idFin);
+    AjouterChoixAjouteurACarac(
+                 "Vous êtes ébahi par la beauté. Vous aimeriez avoir le temps et les moyens de la rendre immortelle par un tableau ou un poème.",
+                GenPrologueArdennes::PRIO_ART, "1", idFin);
+
+    return effet;
+}
+
 void GenPrologueArdennes::GenererEvtsAccueil()
 {
     this->AjouterEvt("Debut", "Génération du perso par les choix");
@@ -391,7 +438,10 @@ void GenPrologueArdennes::GenererEvtsAccueil()
     GenererOieSauvage       (ID_EF_OIE,             ID_EF_AUBERON);
     GenererAuberon          (ID_EF_AUBERON,         ID_EF_DOLMEN);
     // il pleut
-    GenererDolmen          (ID_EF_DOLMEN,         ID_EF_ARBRE_SACRE);
+    GenererDolmen          (ID_EF_DOLMEN,         ID_EF_COCAGNE);
+    GenererCocagne          (ID_EF_COCAGNE,         ID_EF_NUAGES);
+    // repérage montagne
+    GenererNuages          (ID_EF_NUAGES,         ID_EF_ARBRE_SACRE);
     // clairière habitations
     GenererArbreSacre      (ID_EF_ARBRE_SACRE,         ID_EF_PROCHAIN_EFFET);
 
