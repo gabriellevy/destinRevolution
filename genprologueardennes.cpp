@@ -55,6 +55,8 @@ QString GenPrologueArdennes::ID_EF_HISTOIRE_ERMITE = "Histoire ermite";
 QString GenPrologueArdennes::ID_EF_OIE = "Oie";
 QString GenPrologueArdennes::ID_EF_PERDU = "Perdu";
 QString GenPrologueArdennes::ID_EF_AUBERON = "Aubéron";
+QString GenPrologueArdennes::ID_EF_DOLMEN = "Dolmen";
+QString GenPrologueArdennes::ID_EF_ARBRE_SACRE = "Arbre sacré";
 
 QString GenPrologueArdennes::ID_EF_PROCHAIN_EFFET = "id prochain effet";
 
@@ -318,8 +320,65 @@ Effet* GenPrologueArdennes::GenererAuberon(QString idDebut, QString idFin)
                 URevolution::VOLONTE, "1");
     choixFonce->m_GoToEffetId = "choixFonce";
 
-    Choix* choixRien = m_GenerateurEvt->AjouterChoixGoToEffet(
+    /*Choix* choixRien =*/ m_GenerateurEvt->AjouterChoixGoToEffet(
                  "Vous le laissez passer pour ne pas créer d'histoire.", idFin);
+
+    return effet;
+}
+
+Effet* GenPrologueArdennes::GenererArbreSacre(QString idDebut, QString idFin)
+{
+    Effet* effet = m_GenerateurEvt->AjouterEffetNarration("En suivant la meuse vous finissez par arriver à un endroit où les arbres sont beaucoup moins nombreux et où se trouvent quelques champs. Quelques habitations se trouvent à quelques centaines de mètres. Mais ue fois que vous les avez atteintes c'est pour constater qu'un paysan s'y dispute violemment avec son voisin. Le paysan énervé vous explique que son voisin s'apprête à abattre un très vieil arbre. Très contrarié il vous explique qu'il s'agit d'un arbre sacré et que les esprits des forêts cesseraient de favoriser sa récolte si on le coupait. Il se pourrait même qu'ils veuillent se venger. L'autre paysan trouve cette histoire ridicule et explique que cet arbre est de toute façon si vieux que des branches en tombent régulièrement ce qui est dangereux.",
+           "", idDebut);
+
+    Choix* choixCouper = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "Couper cet arbre sera le moyen de montrer que ces histoires de fées sont grotesques.", GenPrologueArdennes::PRIO_LUMIERE, "1");
+    choixCouper->m_GoToEffetId = idFin;
+
+    Choix* choixOrdre = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "Vous cherchez à savoir à qui appartient le terrain. C'est lui qui doit décider.", GenPrologueArdennes::PRIO_ORDRE, "1");
+    choixOrdre->m_GoToEffetId = idFin;
+
+    Choix* choixFeerie = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "Vous protégez l'arbre sacré.", GenPrologueArdennes::PRIO_FEERIE, "1");
+    choixFeerie->m_GoToEffetId = idFin;
+
+    Choix* choixReligion = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "Vous insistez non seulement pour que l'arbre soit coupé mais aussi brûlé et remplacé par une croix.", GenPrologueArdennes::PRIO_RELIGION, "1");
+    choixReligion->m_GoToEffetId = idFin;
+
+    Choix* choixTailler = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "Vous proposez de tailler le vieil arbre pour qu'il reste majestueux mais sans branche abimée.", GenPrologueArdennes::PRIO_TRAVAIL, "1");
+    choixTailler->m_GoToEffetId = idFin;
+
+
+    return effet;
+}
+
+Effet* GenPrologueArdennes::GenererDolmen(QString idDebut, QString idFin)
+{
+    Effet* effet = m_GenerateurEvt->AjouterEffetNarration("Soudain vous entendez un violent coup de tonnerre. Trente secondes plus tard il pleut à verse. Heureusement vous appercevez non loin de là une petite clairière où se trouve un étrange empilemenet de pierres où vous devriez pouvoir vous abriter.",
+           "", idDebut);
+
+    Choix* choixRien = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "Vous vous réfugiez vite dessous avant que toutes vos affaires soient trempées et inutilisable.", GenPrologueArdennes::PRIO_LUMIERE, "1");
+    choixRien->m_GoToEffetId = idFin;
+
+    Choix* choixPeur = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "C'est un dolmen féérique. Hors de question de prendre le risque de les courroucer.", GenPrologueArdennes::PRIO_FEERIE, "1");
+    choixPeur->m_GoToEffetId = idFin;
+
+    Choix* choixPriere = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "Ces endroits païnens sont certes dangereux mais votre coeur pur ainsi qu'une humble prière vous protègeront.", GenPrologueArdennes::PRIO_NOBLESSE, "1");
+    choixPriere->m_GoToEffetId = idFin;
+
+    Choix* choixAmi = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "Féées ou pas, vous ne doutez pas qu'elles sauront apprécier votre présence charmante.", URevolution::CHARISME, "1");
+    choixAmi->m_GoToEffetId = idFin;
+
+    Choix* choixErudit = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+                 "Formidable c'est l'occasion d'obeserver des structures païennes anciennes tout en s'abritant.", GenPrologueArdennes::PRIO_SAVOIR, "1");
+    choixErudit->m_GoToEffetId = idFin;
 
     return effet;
 }
@@ -330,8 +389,14 @@ void GenPrologueArdennes::GenererEvtsAccueil()
     GenererEveil(           ID_EF_ACCUEIL,          ID_EF_HOMME_SAUVAGE);
     GenererHommeSauvage     (ID_EF_HOMME_SAUVAGE,   ID_EF_PERDU);
     GenererPerdu            (ID_EF_PERDU,           ID_EF_HISTOIRE_ERMITE);
+    // 1ère nuit à l'abri
     GenererHistoireErmite   (ID_EF_HISTOIRE_ERMITE, ID_EF_OIE);
+    // très faim
     GenererOieSauvage       (ID_EF_OIE,             ID_EF_AUBERON);
-    GenererAuberon          (ID_EF_AUBERON,         ID_EF_PROCHAIN_EFFET);
+    GenererAuberon          (ID_EF_AUBERON,         ID_EF_DOLMEN);
+    // il pleut
+    GenererDolmen          (ID_EF_DOLMEN,         ID_EF_ARBRE_SACRE);
+    // clairière habitations
+    GenererArbreSacre      (ID_EF_ARBRE_SACRE,         ID_EF_PROCHAIN_EFFET);
 
 }
