@@ -18,7 +18,7 @@ QString GenPrologueArdennes::PRIO_FEERIE = "Magicien";
 QString GenPrologueArdennes::PRIO_LIBERTE = "Aventurier";
 QString GenPrologueArdennes::PRIO_ORDRE = "Ordre";
 
-GenPrologueArdennes::GenPrologueArdennes(Hist* histoireGeneree):GenHistoire (histoireGeneree) {}
+GenPrologueArdennes::GenPrologueArdennes():GenHistoire () {}
 
 Hist* GenPrologueArdennes::GenererHistoire()
 {
@@ -84,18 +84,18 @@ Effet* GenPrologueArdennes::GenererHommeSauvage(QString idDebut, QString idFin)
                                                               "", "embuscadeHommeSauvage");
     embuscade->AjouterChangeurDeCarac("embuscadeHommeSauvage", "1"); // donne un avantage en cas de bagarre
 
-    Choix* choixEmbuscade1 = m_GenerateurEvt->AjouterChoixGoToEffet(
+    /*Choix* choixEmbuscade1 = */m_GenerateurEvt->AjouterChoixGoToEffet(
                  "Vous l'interpelez tout en le tenant en joue avec votre arc", "discussionHommeSauvage");
 
     // discussionHommeSauvage
-    Effet* discussionHommeSauvage = m_GenerateurEvt->AjouterEffetNarration("Quand vous l'interpellez l'homme sauvage réagit mollement, sans inquiétude ni agressivité et vous regarde. La femme, dans sa position sur son épaule ne peut pas vous voir mais appelle à l'aide et crie qu'un monstre l'a enlevée à son village et veut la manger. Le sauvage gromelle qu'il a déjà mangé mais qu'il a besoin d'une femme pour être son épouse. La femme est scandalisée et lui hurle de la lâcher ce qu'il refuse de faire. Que lui dites vous ?",
+    /*Effet* discussionHommeSauvage = */m_GenerateurEvt->AjouterEffetNarration("Quand vous l'interpellez l'homme sauvage réagit mollement, sans inquiétude ni agressivité et vous regarde. La femme, dans sa position sur son épaule ne peut pas vous voir mais appelle à l'aide et crie qu'un monstre l'a enlevée à son village et veut la manger. Le sauvage gromelle qu'il a déjà mangé mais qu'il a besoin d'une femme pour être son épouse. La femme est scandalisée et lui hurle de la lâcher ce qu'il refuse de faire. Que lui dites vous ?",
                                                               "", "discussionHommeSauvage");
 
-    Choix* discussionRelache = m_GenerateurEvt->AjouterChoixGoToEffet(
+    /*Choix* discussionRelache = */m_GenerateurEvt->AjouterChoixGoToEffet(
                  "Vous lui dites qu'il est interdit d'enlever les femmes ainsi et qu'il doit la relâcher", "discussionHommeSauvageRelache");
 
 
-    Effet* discussionHommeSauvageRelache = m_GenerateurEvt->AjouterEffetNarration("L'homme sauvage répond que quand un homem est assez fort pour prendre une femme il est normal qu'il la garde. Mais, tout en grognant, il articule tout de même que par générosité si il peut copuler une fois avec la femme il la laissera partir. Il ajoute bruyamment avec un sourire que bien sûr si après ça elle décide de rester elle sera la bienvenue. La villageoise proteste mollement qu'elle est déjà mariée.",
+    /*Effet* discussionHommeSauvageRelache = */m_GenerateurEvt->AjouterEffetNarration("L'homme sauvage répond que quand un homem est assez fort pour prendre une femme il est normal qu'il la garde. Mais, tout en grognant, il articule tout de même que par générosité si il peut copuler une fois avec la femme il la laissera partir. Il ajoute bruyamment avec un sourire que bien sûr si après ça elle décide de rester elle sera la bienvenue. La villageoise proteste mollement qu'elle est déjà mariée.",
                                                               "", "discussionHommeSauvageRelache");
     Choix* discussionAttaque = m_GenerateurEvt->AjouterChoixGoToEffet(
                  "Assez discuté vous l'attaquez", "combatHommeSauvage");
@@ -221,7 +221,7 @@ Effet* GenPrologueArdennes::GenererOieSauvage(QString idDebut, QString idFin)
     m_GenerateurEvt->AjouterChoixGoToEffet("Vous la soignez autant que possible puis vous partez", "soignerOie");
 
     // "mangerOie"
-    Effet* mangerOie = m_GenerateurEvt->AjouterEffetNarration("Vous tuez facielement l'oie qui semblait à peine capable de marcher.",
+    /*Effet* mangerOie = */m_GenerateurEvt->AjouterEffetNarration("Vous tuez facielement l'oie qui semblait à peine capable de marcher.",
                                                               "", "mangerOie");
     m_GenerateurEvt->AjouterChoixGoToEffet("Vous essayez de faire un bon feu pour la cuire.", "cuireOie");
     m_GenerateurEvt->AjouterChoixAjouteurACarac("Vous être un cuisiner expert. Trouver les herbes dans les environs et faire un feu va être un jeu d'enfant.",
@@ -233,7 +233,7 @@ Effet* GenPrologueArdennes::GenererOieSauvage(QString idDebut, QString idFin)
     effetParlerOie->m_GoToEffetId = GenPrologueArdennes::ID_EF_OIE;
 
     // "cuireOie"
-    Effet* efMangerOie = m_GenerateurEvt->AjouterEffetNarration("C'était un délice, surtout après une si longue errance en forêt. Une oie est cependant beaucoup trop de nourriture pour une personne seule.",
+    /*Effet* efMangerOie = */m_GenerateurEvt->AjouterEffetNarration("C'était un délice, surtout après une si longue errance en forêt. Une oie est cependant beaucoup trop de nourriture pour une personne seule.",
                                                                 "", "cuireOie");
     m_GenerateurEvt->AjouterChoixAjouteurACarac("Pas pour vous. Vous mangerJusqu'à finir l'oie toute entière !",
                                                 URevolution::PUISSANCE, "1", idFin);
@@ -269,7 +269,7 @@ Effet* GenPrologueArdennes::GenererPerdu(QString idDebut, QString idFin)
                 PRIO_SAVOIR, "1");
     choixSavoir->m_GoToEffetId = "reflexion";
 
-    Choix* choixRager = m_GenerateurEvt->AjouterChoixAjouteurACarac(
+    /*Choix* choixRager = */m_GenerateurEvt->AjouterChoixAjouteurACarac(
                 "Vous ragez contre le chaos de la forêt. Cela ne serait pas arrivé dans un endroit civilisé.",
                 PRIO_ORDRE, "1");
     choixSavoir->m_GoToEffetId = idFin;

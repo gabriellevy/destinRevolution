@@ -4,9 +4,6 @@
 #include "../destinLib/univers.h"
 #include <QMainWindow>
 
-/**
- * @brief Univers revolution : all he base things of the universe in genberal are referenced here
- */
 class URevolution : public Univers
 {
     Q_OBJECT
@@ -15,7 +12,7 @@ public:
     URevolution(ModeAffichage modeAffichage = ModeAffichage::ema_Jeu,
                 QWidget *parent = nullptr);
 
-    Hist* ExecuterGenerateurHistoire();
+    static QString HIST_PROLOGUE_REVOLUTION;
 
     // caractérisiques principales (au sens jdr)
     static QString HABILETE;

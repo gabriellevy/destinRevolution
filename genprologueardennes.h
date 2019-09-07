@@ -8,7 +8,7 @@ class URevolution;
 class GenPrologueArdennes : public GenHistoire
 {
 public:
-    GenPrologueArdennes(Hist* histoireGeneree);
+    GenPrologueArdennes();
 
     virtual Hist* GenererHistoire();
 
