@@ -408,7 +408,7 @@ Effet* GenPrologueArdennes::GenererCocagne(QString idDebut, QString idFin)
 Effet* GenPrologueArdennes::GenererNuages(QString idDebut, QString idFin)
 {
     Effet* effet = AjouterEffetNarration("Après une âpre escalade d'un mont du haut duquel vous pourrez mieux évaluer votre situation vous vous retrouvez au dessus d'une mer de nuages. Quels sont vos sentiments à ce spectacle grandiose ?",
-           "", idDebut);
+           ":/Images/Ardennes/Mer de nuages.jpg", idDebut);
 
     AjouterChoixAjouteurACarac(
                  "Un sentiment de puissance vous submerge. Vous avez vaincu la montagne. En observant les alentours vous vaincrez la forêt.",
