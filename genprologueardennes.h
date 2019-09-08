@@ -27,6 +27,7 @@ protected:
     static QString ID_EF_ARBRE_SACRE;
     static QString ID_EF_COCAGNE;
     static QString ID_EF_NUAGES;
+    static QString ID_EF_REVE;
 
     static QString ID_EF_PROCHAIN_EFFET;
 
@@ -57,6 +58,7 @@ private:
     Effet* GenererArbreSacre(QString idDebut, QString idFin);
     Effet* GenererCocagne(QString idDebut, QString idFin);
     Effet* GenererNuages(QString idDebut, QString idFin);
+    Effet* GenererReve(QString idDebut, QString idFin);
 
 };
 

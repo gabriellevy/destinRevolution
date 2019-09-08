@@ -59,6 +59,7 @@ QString GenPrologueArdennes::ID_EF_DOLMEN = "Dolmen";
 QString GenPrologueArdennes::ID_EF_ARBRE_SACRE = "Arbre sacré";
 QString GenPrologueArdennes::ID_EF_COCAGNE = "Cocagne";
 QString GenPrologueArdennes::ID_EF_NUAGES = "Mer de nuages";
+QString GenPrologueArdennes::ID_EF_REVE = "Reve";
 
 QString GenPrologueArdennes::ID_EF_PROCHAIN_EFFET = "id prochain effet";
 
@@ -327,7 +328,7 @@ Effet* GenPrologueArdennes::GenererAuberon(QString idDebut, QString idFin)
 Effet* GenPrologueArdennes::GenererArbreSacre(QString idDebut, QString idFin)
 {
     Effet* effet = AjouterEffetNarration("En suivant la meuse vous finissez par arriver à un endroit où les arbres sont beaucoup moins nombreux et où se trouvent quelques champs. Quelques habitations se trouvent à quelques centaines de mètres. Mais ue fois que vous les avez atteintes c'est pour constater qu'un paysan s'y dispute violemment avec son voisin. Le paysan énervé vous explique que son voisin s'apprête à abattre un très vieil arbre. Très contrarié il vous explique qu'il s'agit d'un arbre sacré et que les esprits des forêts cesseraient de favoriser sa récolte si on le coupait. Il se pourrait même qu'ils veuillent se venger. L'autre paysan trouve cette histoire ridicule et explique que cet arbre est de toute façon si vieux que des branches en tombent régulièrement ce qui est dangereux.",
-           "", idDebut);
+           ":/Images/Ardennes/ArbreSacre.jpg", idDebut);
 
     Choix* choixCouper = AjouterChoixAjouteurACarac(
                  "Couper cet arbre sera le moyen de montrer que ces histoires de fées sont grotesques.", GenPrologueArdennes::PRIO_LUMIERE, "1");
@@ -426,6 +427,42 @@ Effet* GenPrologueArdennes::GenererNuages(QString idDebut, QString idFin)
     return effet;
 }
 
+Effet* GenPrologueArdennes::GenererReve(QString idDebut, QString idFin)
+{
+    Effet* effet = AjouterEffetNarration("Bercé par le feu de l'ermite et malgré la dureté du sol sur lequel vous vous trouvez vous ne tardez pas à vous endormir d'un sommeil profond. Dans votre rêve le vieil ermite"
+                                         "s'approche de vous. Au lieu de marcher, il flotte doucement au dessus du sol. Il appelle quelqu'un. Des êtres étranges de forme humaine mais aux oreilles pointues et cheveux longs et flottants viennent courir autour de vous en dansant et riant. Le vieil ermite vous adresse alors la parole. Sa voie a changé. Elle est plus profonde, plus imposante. Les autres cessent leur ronde et l'écoutent avec respect.\n"
+                                         "\"Tu as le respect du peuple fée étranger. Tu as droit à un don. Choisis avec sagesse/\"",
+           ":/Images/Ardennes/Mer de nuages.jpg", idDebut);
+
+    Choix* choixPuissance = AjouterChoixAjouteurACarac(
+                 "Je veux la force d'écraser mes ennemis.",
+                URevolution::PUISSANCE, "1", idFin);
+    choixPuissance->AjouterAjouteurACarac(GenPrologueArdennes::PRIO_FORCE, "1");
+
+    Choix* choixIntel = AjouterChoixAjouteurACarac(
+                 "Je veux l'intelligence. Je veux tout comprendre et tout savoir.",
+                URevolution::INTELLIGENCE, "1", idFin);
+    choixIntel->AjouterAjouteurACarac(GenPrologueArdennes::PRIO_SAVOIR, "1");
+
+    AjouterChoixAjouteurACarac(
+                 "Je refuse les dons corrupteurs des monstres païens. ",
+                GenPrologueArdennes::PRIO_RELIGION, "1", idFin);
+
+    AjouterChoixAjouteurACarac(
+                 "Je veux la beauté.",
+                URevolution::CHARISME, "1", idFin);
+
+    AjouterChoixAjouteurACarac(
+                 "Je souhaite l'inspiration.",
+                GenPrologueArdennes::PRIO_ART, "1", idFin);
+
+    AjouterChoixAjouteurACarac(
+                 "Nul besoin de vos dons, j'arriverai à tout par moi-même.",
+                URevolution::VOLONTE, "1", idFin);
+
+    return effet;
+}
+
 void GenPrologueArdennes::GenererEvtsAccueil()
 {
     this->AjouterEvt("Debut", "Génération du perso par les choix");
@@ -433,7 +470,8 @@ void GenPrologueArdennes::GenererEvtsAccueil()
     GenererHommeSauvage     (ID_EF_HOMME_SAUVAGE,   ID_EF_PERDU);
     GenererPerdu            (ID_EF_PERDU,           ID_EF_HISTOIRE_ERMITE);
     // 1ère nuit à l'abri
-    GenererHistoireErmite   (ID_EF_HISTOIRE_ERMITE, ID_EF_OIE);
+    GenererHistoireErmite   (ID_EF_HISTOIRE_ERMITE, ID_EF_REVE);
+    GenererReve            (ID_EF_REVE, ID_EF_OIE);
     // très faim
     GenererOieSauvage       (ID_EF_OIE,             ID_EF_AUBERON);
     GenererAuberon          (ID_EF_AUBERON,         ID_EF_DOLMEN);
