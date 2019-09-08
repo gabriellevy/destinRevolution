@@ -12,6 +12,18 @@ public:
 
     virtual Hist* GenererHistoire();
 
+    // caracs temporaires qui calculent les priorités du personnages dans les diverses valeurs pour déterminer ses caracs à la fin du jeu
+    static QString RELIGION;
+    static QString ORDRE;
+    static QString FORCE;
+    static QString NOBLESSE;
+    static QString LUMIERE;
+    static QString TRAVAIL;
+    static QString INDIVIDUALISME;
+    static QString SAVOIR;
+    static QString ART;
+    static QString FEERIE;
+
 protected:
     // génère toutes les caracs qui peuvent être visualisées par le joueur (d'autres caracs peuvent être générées et invisibles n'importe quand dans l'aventure)
     virtual void GenererCaracs();
@@ -31,34 +43,22 @@ protected:
 
     static QString ID_EF_PROCHAIN_EFFET;
 
-    // caracs temporaires qui calculent les priorités du personnages dans les diverses valeurs pour déterminer ses caracs à la fin du jeu
-    static QString PRIO_RELIGION;
-    static QString PRIO_ORDRE;
-    static QString PRIO_FORCE;
-    static QString PRIO_NOBLESSE;
-    static QString PRIO_LUMIERE;
-    static QString PRIO_TRAVAIL;
-    static QString PRIO_LIBERTE;
-    static QString PRIO_SAVOIR;
-    static QString PRIO_ART;
-    static QString PRIO_FEERIE;
-
 private:
     // génération de l'événement de base
     void GenererEvtsAccueil();
 
     // génération de tous les effets (mini événements)
-    Effet* GenererEveil(QString idDebut, QString idFin);
-    Effet* GenererHommeSauvage(QString idDebut, QString idFin);
-    Effet* GenererHistoireErmite(QString idDebut, QString idFin);
-    Effet* GenererOieSauvage(QString idDebut, QString idFin);
-    Effet* GenererPerdu(QString idDebut, QString idFin);
-    Effet* GenererAuberon(QString idDebut, QString idFin);
-    Effet* GenererDolmen(QString idDebut, QString idFin);
-    Effet* GenererArbreSacre(QString idDebut, QString idFin);
-    Effet* GenererCocagne(QString idDebut, QString idFin);
-    Effet* GenererNuages(QString idDebut, QString idFin);
-    Effet* GenererReve(QString idDebut, QString idFin);
+    void GenererEveil(QString idDebut, QString idFin);
+    void GenererHommeSauvage(QString idDebut, QString idFin);
+    void GenererHistoireErmite(QString idDebut, QString idFin);
+    void GenererOieSauvage(QString idDebut, QString idFin);
+    void GenererPerdu(QString idDebut, QString idFin);
+    void GenererAuberon(QString idDebut, QString idFin);
+    void GenererDolmen(QString idDebut, QString idFin);
+    void GenererArbreSacre(QString idDebut, QString idFin);
+    void GenererCocagne(QString idDebut, QString idFin);
+    void GenererNuages(QString idDebut, QString idFin);
+    void GenererReve(QString idDebut, QString idFin);
 
 };
 

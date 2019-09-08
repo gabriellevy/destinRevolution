@@ -7,16 +7,16 @@
 #include "../destinLib/execeffet.h"
 #include "heros.h"
 
-QString GenPrologueArdennes::PRIO_NOBLESSE = "Aristocratie";
-QString GenPrologueArdennes::PRIO_LUMIERE = "Bourgeois";
-QString GenPrologueArdennes::PRIO_FORCE = "Guerrier";
-QString GenPrologueArdennes::PRIO_RELIGION = "Prêtre";
-QString GenPrologueArdennes::PRIO_TRAVAIL = "Travailleur";
-QString GenPrologueArdennes::PRIO_SAVOIR = "Érudit";
-QString GenPrologueArdennes::PRIO_ART = "Artiste";
-QString GenPrologueArdennes::PRIO_FEERIE = "Magicien";
-QString GenPrologueArdennes::PRIO_LIBERTE = "Aventurier";
-QString GenPrologueArdennes::PRIO_ORDRE = "Ordre";
+QString GenPrologueArdennes::NOBLESSE = "Aristocratie";
+QString GenPrologueArdennes::LUMIERE = "Bourgeois";
+QString GenPrologueArdennes::FORCE = "Guerrier";
+QString GenPrologueArdennes::RELIGION = "Prêtre";
+QString GenPrologueArdennes::TRAVAIL = "Travailleur";
+QString GenPrologueArdennes::SAVOIR = "Érudit";
+QString GenPrologueArdennes::ART = "Artiste";
+QString GenPrologueArdennes::FEERIE = "Magicien";
+QString GenPrologueArdennes::INDIVIDUALISME = "Individualisme";
+QString GenPrologueArdennes::ORDRE = "Ordre";
 
 GenPrologueArdennes::GenPrologueArdennes():GenHistoire () {}
 
@@ -63,22 +63,22 @@ QString GenPrologueArdennes::ID_EF_REVE = "Reve";
 
 QString GenPrologueArdennes::ID_EF_PROCHAIN_EFFET = "id prochain effet";
 
-Effet* GenPrologueArdennes::GenererHommeSauvage(QString idDebut, QString idFin)
+void GenPrologueArdennes::GenererHommeSauvage(QString idDebut, QString idFin)
 {
-    Effet* effet = AjouterEffetNarration("Vous vous approchez discrètement. Le bruit que vous faites est de toute façon couvert par les cris de femmes qui redoublent au fur et à mesure que vous vous approchez. Enfin, après avoir passé un buisson vous appercevez à quelques centaines de mètres un bien étrange spectacle. C'est bien une femme qui crie. Une grande paysanne rousse grassouillette, et elle se trouve sur l'épaule d'un très grand homme apparemment nu mais extraordinairement poilu. C'est un homme sauvage ! Et la femme qui se débat désespérément est sans doute une pauvre villageoise qu'il a enlevé pour assouvir la lubricité typique de sa race.",
+    AjouterEffetNarration("Vous vous approchez discrètement. Le bruit que vous faites est de toute façon couvert par les cris de femmes qui redoublent au fur et à mesure que vous vous approchez. Enfin, après avoir passé un buisson vous appercevez à quelques centaines de mètres un bien étrange spectacle. C'est bien une femme qui crie. Une grande paysanne rousse grassouillette, et elle se trouve sur l'épaule d'un très grand homme apparemment nu mais extraordinairement poilu. C'est un homme sauvage ! Et la femme qui se débat désespérément est sans doute une pauvre villageoise qu'il a enlevé pour assouvir la lubricité typique de sa race.",
                                                           ":/Images/Ardennes/HommeSauvage.jpg", idDebut);
     // les choix
-    /*Choix* choixCombat = */AjouterChoixAjouteurACarac(
-                 "Vous sortez votre arme et le chargez", GenPrologueArdennes::PRIO_FORCE, "1", "combatHommeSauvage");
+    AjouterChoixAjouteurACarac(
+                 "Vous sortez votre arme et le chargez", GenPrologueArdennes::FORCE, "1", "combatHommeSauvage");
 
-    /*Choix* choixInterpeller = */AjouterChoixAjouteurACarac(
-                 "Vous interpelez le sauvage", GenPrologueArdennes::PRIO_LUMIERE, "1", "discussionHommeSauvage"); // bof...
+    AjouterChoixAjouteurACarac(
+                 "Vous interpelez le sauvage", GenPrologueArdennes::LUMIERE, "1", "discussionHommeSauvage"); // bof...
 
-    /*Choix* choixEmbuscade = */AjouterChoixAjouteurACarac(
+    AjouterChoixAjouteurACarac(
                  "Vous tentez de le doubler discrètement pour dépasser sa position et lui tendre une embuscade", URevolution::HABILETE, "1", "embuscadeHommeSauvage");
 
-    /*Choix* choixEviter = */AjouterChoixAjouteurACarac(
-                 "Vous préférez ne pas vous en mêler. Ce n'est pas à vous de régler les conflits entre sauvages et civilisés", GenPrologueArdennes::PRIO_LIBERTE, "1", idFin);
+    AjouterChoixAjouteurACarac(
+                 "Vous préférez ne pas vous en mêler. Ce n'est pas à vous de régler les conflits entre sauvages et civilisés", GenPrologueArdennes::INDIVIDUALISME, "1", idFin);
 
     // embuscade
     Effet* embuscade = AjouterEffetNarration("Vous parvenez à le doubler rapidement. Il a beau être très grand il est très ralenti par son fardeau. Vous vous postez dans un arbre et, comme prévu, il va passer dessous dans une dizaine de secondes.",
@@ -100,74 +100,83 @@ Effet* GenPrologueArdennes::GenererHommeSauvage(QString idDebut, QString idFin)
                                                               "", "discussionHommeSauvageRelache");
     Choix* discussionAttaque = AjouterChoixGoToEffet(
                  "Assez discuté vous l'attaquez", "combatHommeSauvage");
-    discussionAttaque->AjouterAjouteurACarac(GenPrologueArdennes::PRIO_FORCE, "1");
-
-    return effet;
+    discussionAttaque->AjouterAjouteurACarac(GenPrologueArdennes::FORCE, "1");
 }
 
-Effet* GenPrologueArdennes::GenererEveil(QString idDebut, QString idFin)
+void GenPrologueArdennes::GenererEveil(QString idDebut, QString idFin)
 {
-    Effet* eveil = AjouterEffetNarration("Vous vous éveillez en plein forêt des ardennes et en pleine nuit, l'esprit enbrumé mais le corps hardi. Malgré le danger de votre situation il vous semble que tout vous est possible aujourd'hui et que cette forêt sombre et menaçante est la vôtre. Que faites vous ?",
+    AjouterEffetNarration("Vous vous éveillez en plein forêt des ardennes et en pleine nuit, l'esprit enbrumé mais le corps hardi. Malgré le danger de votre situation il vous semble que tout vous est possible aujourd'hui et que cette forêt sombre et menaçante est la vôtre. Que faites vous ?",
                                                           "", idDebut);
 
     // les choix
-    Choix* choixExplorer = AjouterChoixAjouteurACarac(
-                 "Vous partez explorer au hasard", GenPrologueArdennes::PRIO_LIBERTE, "1");
-    choixExplorer->m_GoToEffetId = idFin;
+    AjouterChoixGoToEffet(
+                 "Vous partez explorer au hasard", idFin);
 
-    Choix* choixManger = AjouterChoixAjouteurACarac(
+    AjouterChoixAjouteurACarac(
                  "Parons au plus pressé : vous cherchez si il y a trace de fruits comestibles dans les environs ou d'animaux à chasser",
-                GenPrologueArdennes::PRIO_TRAVAIL, "1");
-    choixManger->m_GoToEffetId = "ChercherAManger";
+                GenPrologueArdennes::TRAVAIL, "1", "ChercherAManger");
 
-    Choix* choixReflechir = AjouterChoixAjouteurACarac(
-                 "Vous restez où vous êtes et réfléchissez pour comprendre ce qui a bien pu vous arriver", URevolution::INTELLIGENCE, "1");
-    choixReflechir->m_GoToEffetId = "ResterReflechir";
+    AjouterChoixAjouteurACarac(
+                 "Vous restez où vous êtes et réfléchissez pour comprendre ce qui a bien pu vous arriver", URevolution::INTELLIGENCE, "1", "ResterReflechir");
 
-    Choix* choixMonterArbre = AjouterChoixAjouteurACarac(
-                 "Vous montez en haut d'un arbre pour y dormir en attendant la fin de la nuit", URevolution::HABILETE, "1");
-    choixMonterArbre->m_GoToEffetId = "MonterSurArbre";
+    AjouterChoixAjouteurACarac(
+                 "Vous montez en haut d'un arbre pour y dormir en attendant la fin de la nuit", URevolution::HABILETE, "1", "MonterSurArbre");
 
+    // sur arbre
+    AjouterEffetNarration("Vous parvenez à vous installer adroitement sur une très large branche haute. Cela reste un moyen très dangereux de dormir mais vous avez confiance en votre habileté et vous endormez rapidement"
+                          "\n Mais vous êtes bientôt réveillé par des bruits distants mais assez perçants.", "", "MonterSurArbre");
 
-    return eveil;
+    AjouterChoixAjouteurACarac("Vous tendez l'oreille pou essayer d'identifier le bruit.", URevolution::PERCEPTION, "1", "EcouteBruit");
+    AjouterChoixGoToEffet("Vous descendez immédiatement pour aller enquêter.", idFin);
+    AjouterChoixAjouteurACarac("Vous préférez vous rendormir.", GenPrologueArdennes::INDIVIDUALISME, "1", "PrefereDormir");
+
+    // écoute
+    AjouterEffetNarration("Vous devez bien vous concentrer vu la distance mais il n'y a pas de doute. C'est un appel au secours féminin", "", "EcouteBruit");
+
+    AjouterChoixGoToEffet("Vous descendez immédiatement de l'arbre pour aller enquêter.", idFin);
+    AjouterChoixAjouteurACarac("Vous préférez vous rendormir.", GenPrologueArdennes::INDIVIDUALISME, "1", "PrefereDormir");
+
+    Effet* dodo = AjouterEffetNarration("Est-ce un rêve. Vous croyiez être endormi sur une branche mais vous voilà errant dans une forêt à nouveau. Impossible d'en être sûr mais ça semble en plus être la même forêt."
+                          "Et les mêmes cris, qui cette fois sont tout proches. Est-il possible d'y échapper ?", "", "PrefereDormir");
+    dodo->m_GoToEffetId = idFin;
 }
 
-Effet* GenPrologueArdennes::GenererHistoireErmite(QString idDebut, QString idFin)
+void GenPrologueArdennes::GenererHistoireErmite(QString idDebut, QString idFin)
 {
     QString txtErmite = "Vous vous éloignez et, sans vraiment savoir pourquoi ni vers où, vous vous remettez à vous enfoncer dans la forêt. Après quelques minutes seulement vous appercevez un feu au loin. Il s'agit d'un feu maîtrisé, sans doute allumé par un voyageur. Vous croyiez vous être élancé au hasard dans la forêt mais vos pas vous menaient droit vers ce feu avant même que vous ne le voyiez. Est-ce le froid, la solitude ou autre chose ? Vous ne pouvez résister à l'appel du feu de camps et vous approchez, en prenant le minimum de précautions.\n"
                   "Il semble en effet ne pas y avoir de risques : la seule personne assise près du modeste feu de fois est un très vieil homme barbu et frêle. Il est habillé à la manière rustique d'un forestier mais ses habits sont si abimés qu'il ressemble plutôt à un vagabond ou à un ermite.\n"
                   "À votre approche il ne vous dit pas un mot et se contente de vous tendre ce qui semble être son unique repas : une belle pomme bien mûre.\n"
                   "Ne prêtant aucun attention à votre réaction et ne vous regardant même pas dans les yeux il se contente de dire gravement : \"Vous avez une chance rare étranger. Vous vous tenez en face de la mémoire vivante de la forêt des ardennes. J'habite ces bois depuis plus de 2000 ans et rares sont les humains qui me trouvent. Assurément une force vous a mené ici. J'ignore pourquoi car je ne suis vraiment d'aucune utilité à un aventurier. Je ne suis rien d'autre qu'une mémoire qui raconte des histoires. Peut-être est-ce qu'il vous faut pour passer cette froide nuit. Voudriez vous en entendre une ?\"";
-    Effet* effet = AjouterEffetNarration(txtErmite, "", idDebut);
+    AjouterEffetNarration(txtErmite, "", idDebut);
 
     // les choix
     Choix* choixHistoireCharlemagne = AjouterChoixAjouteurACarac(
-                 "Avez vous cotoyé Charlemagne ? On dit qu'il a souvent chassé dans ces bois avec son neveu Roland.", GenPrologueArdennes::PRIO_NOBLESSE, "1");
+                 "Avez vous cotoyé Charlemagne ? On dit qu'il a souvent chassé dans ces bois avec son neveu Roland.", GenPrologueArdennes::NOBLESSE, "1");
     choixHistoireCharlemagne->m_GoToEffetId = "histoireCharlemagne";
 
     Choix* choixFilsAymon = AjouterChoixAjouteurACarac(
-                 "Racontez moi l'histoire des fils Aymon poursuivis par Charlemagne et de leur cheval fée Bayard.", GenPrologueArdennes::PRIO_LIBERTE, "1");
+                 "Racontez moi l'histoire des fils Aymon poursuivis par Charlemagne et de leur cheval fée Bayard.", GenPrologueArdennes::FORCE, "1");
     choixFilsAymon->m_GoToEffetId = "choixFilsAymon";
 
     Choix* choixPasHistoire = AjouterChoixAjouteurACarac(
                  "Peu m'importe le passé seul compte le présent et le futur qui en sera issu. Si vous ne pouvez m'aider je préfère dormir jusqu'au matin.",
-                GenPrologueArdennes::PRIO_LUMIERE, "1");
+                GenPrologueArdennes::LUMIERE, "1");
     choixPasHistoire->m_GoToEffetId = idFin;
 
     Choix* choixSaintLaurent = AjouterChoixAjouteurACarac(
-                 "Avez vous rencontré le pieu Saint Hubert ? On dit qu'il a été ermite dans cette forêt.", GenPrologueArdennes::PRIO_RELIGION, "1");
+                 "Avez vous rencontré le pieu Saint Hubert ? On dit qu'il a été ermite dans cette forêt.", GenPrologueArdennes::RELIGION, "1");
     choixSaintLaurent->m_GoToEffetId = "histoireSaintLaurent";
 
     Choix* choixFees = AjouterChoixAjouteurACarac(
-                 "On dit que ce bois est plein de fées. En êtes vous un ?", GenPrologueArdennes::PRIO_FEERIE, "1");
+                 "On dit que ce bois est plein de fées. En êtes vous un ?", GenPrologueArdennes::FEERIE, "1");
     choixFees->m_GoToEffetId = "choixFees";
 
     Choix* choixHistoire = AjouterChoixAjouteurACarac(
-                 "J'ai de nombreuses questions à vous poser sur la faune et la flore de cette forêt", GenPrologueArdennes::PRIO_SAVOIR, "1");
+                 "J'ai de nombreuses questions à vous poser sur la faune et la flore de cette forêt", GenPrologueArdennes::SAVOIR, "1");
     choixHistoire->m_GoToEffetId = "choixHistoire";
 
     Choix* choixChanson = AjouterChoixAjouteurACarac(
-                 "Je préférerai danser et chanter jusqu'au matin.", GenPrologueArdennes::PRIO_ART, "1");
+                 "Je préférerai danser et chanter jusqu'au matin.", GenPrologueArdennes::ART, "1");
     choixChanson->m_GoToEffetId = "choixChanson";
 
     // effet choixFilsAymon
@@ -190,13 +199,11 @@ Effet* GenPrologueArdennes::GenererHistoireErmite(QString idDebut, QString idFin
     AjouterEffetNarration("La voix reprit :\n\" Va donc auprès de Lambert, mon évêque, à Maastricht. Convertis-toi. Fais pénitence de tes péchés, ainsi qu'il te sera enseigné. Voilà ce à quoi tu dois te résoudre pour n'être point damné dans l'éternité. Je te fais confiance, afin que mon Église, en ces régions sauvages, soit par toi grandement fortifiée. \"");
     Effet* effetFinHubert = AjouterEffetNarration("Et Hubert de répondre, avec force et enthousiasme :\n« Merci, ô Seigneur. Vous avez ma promesse.\nJe ferai pénitence, puisque vous le voulez.\nJe saurai en toutes choses me montrer digne de vous ! »", ":/Images/Ardennes/SaintHubert.jpg");
     effetFinHubert->m_GoToEffetId = idFin;
-
-    return effet;
 }
 
-Effet* GenPrologueArdennes::GenererOieSauvage(QString idDebut, QString idFin)
+void GenPrologueArdennes::GenererOieSauvage(QString idDebut, QString idFin)
 {
-    Effet* effet = AjouterEffetNarration("Vous reprenez votre exploration au petit mâtin. Vous approchez d'une claière où vous espérez avoir une meilleure vue des environ quand, au bord d'un étang,"
+    AjouterEffetNarration("Vous reprenez votre exploration au petit mâtin. Vous approchez d'une claière où vous espérez avoir une meilleure vue des environ quand, au bord d'un étang,"
                                                           "vous appercevez une oie bernache qui semble blessée. En vous approchant et en la voyant boiter il vous paraît clair qu'elle est gravement blessée.",
                                                           ":/Images/Ardennes/bernache.du.canada.auau.3g.jpg", idDebut);
 
@@ -204,11 +211,11 @@ Effet* GenPrologueArdennes::GenererOieSauvage(QString idDebut, QString idFin)
                  "Justement vous avez grand faim. Vous la tuez immédiatement.", "mangerOie");
 
     Choix* choixEspritAnimal = AjouterChoixAjouteurACarac(
-                 "Vous invoquez son esprit animal et priez pour elle.", GenPrologueArdennes::PRIO_RELIGION, "1");
+                 "Vous invoquez son esprit animal et priez pour elle.", GenPrologueArdennes::RELIGION, "1");
     choixEspritAnimal->m_GoToEffetId = "espritAnimal";
 
     Choix* choixParler = AjouterChoixAjouteurACarac(
-                 "Vous tentez de lui parler.", GenPrologueArdennes::PRIO_FEERIE, "1");
+                 "Vous tentez de lui parler.", GenPrologueArdennes::FEERIE, "1");
     choixParler->m_GoToEffetId = "parlerOie";
 
     // "espritAnimal"
@@ -226,7 +233,7 @@ Effet* GenPrologueArdennes::GenererOieSauvage(QString idDebut, QString idFin)
                                                               "", "mangerOie");
     AjouterChoixGoToEffet("Vous essayez de faire un bon feu pour la cuire.", "cuireOie");
     AjouterChoixAjouteurACarac("Vous être un cuisiner expert. Trouver les herbes dans les environs et faire un feu va être un jeu d'enfant.",
-                                                GenPrologueArdennes::PRIO_TRAVAIL, "1", "cuireOie");
+                                                GenPrologueArdennes::TRAVAIL, "1", "cuireOie");
     AjouterChoixAjouteurACarac("Vous la mangez crue", URevolution::VOLONTE, "1", "mangerOieCrue");
 
     // "parlerOie"
@@ -239,26 +246,23 @@ Effet* GenPrologueArdennes::GenererOieSauvage(QString idDebut, QString idFin)
     AjouterChoixAjouteurACarac("Pas pour vous. Vous mangerJusqu'à finir l'oie toute entière !",
                                                 URevolution::PUISSANCE, "1", idFin);
     AjouterChoixAjouteurACarac("Vous stockez aussi proprement que possible la viande qui vous reste dans votre sac à dos.",
-                                                GenPrologueArdennes::PRIO_ORDRE, "1", idFin);
+                                                GenPrologueArdennes::ORDRE, "1", idFin);
     AjouterChoixGoToEffet("Vous repartez l'estomac bien rempli et le coeur léger.",
                                                 idFin);
-
-    return effet;
 }
 
-Effet* GenPrologueArdennes::GenererPerdu(QString idDebut, QString idFin)
+void GenPrologueArdennes::GenererPerdu(QString idDebut, QString idFin)
 {
-
-    Effet* effet = AjouterEffetNarration("Après des heures à errer dans la forêt force vous est de reconnaître que non seulement vous ne parvenez pas à vous repérer mais vous ne parvenez même pas à appercevoir le ciel tant la forêt est dense. Et l'aube tarde. Vous avez pourtant le sentiment d'avoir marché tout une nuit. Le désespoir vous gagne.",
+    AjouterEffetNarration("Après des heures à errer dans la forêt force vous est de reconnaître que non seulement vous ne parvenez pas à vous repérer mais vous ne parvenez même pas à appercevoir le ciel tant la forêt est dense. Et l'aube tarde. Vous avez pourtant le sentiment d'avoir marché tout une nuit. Le désespoir vous gagne.",
                                                           "", idDebut);
 
     Choix* choixArduinna = AjouterChoixAjouteurACarac(
-                 "Vous priez Arduinna la divinité du monde sauvage et de la forêt des ardennes.", GenPrologueArdennes::PRIO_RELIGION, "1");
-    choixArduinna->AjouterAjouteurACarac(GenPrologueArdennes::PRIO_FEERIE, "1");
+                 "Vous priez Arduinna la divinité du monde sauvage et de la forêt des ardennes.", GenPrologueArdennes::RELIGION, "1");
+    choixArduinna->AjouterAjouteurACarac(GenPrologueArdennes::FEERIE, "1");
     choixArduinna->m_GoToEffetId = "prieresEntendues";
 
     Choix* choixHubert = AjouterChoixAjouteurACarac(
-                 "Vous priez Saint Hubert, saint patron de la forêt et de la chasse.", GenPrologueArdennes::PRIO_RELIGION, "1");
+                 "Vous priez Saint Hubert, saint patron de la forêt et de la chasse.", GenPrologueArdennes::RELIGION, "1");
     choixHubert->m_GoToEffetId = "prieresEntendues";
 
     Choix* choixErrer = AjouterChoixAjouteurACarac(
@@ -267,12 +271,12 @@ Effet* GenPrologueArdennes::GenererPerdu(QString idDebut, QString idFin)
 
     Choix* choixSavoir = AjouterChoixAjouteurACarac(
                 "Vous réfléchissez profondément à vos études et vos connaissances. Peut-être que vos connaissance en biologie, géologie et astronomie pourront vous sortir d'ici.",
-                PRIO_SAVOIR, "1");
+                SAVOIR, "1");
     choixSavoir->m_GoToEffetId = "reflexion";
 
     /*Choix* choixRager = */AjouterChoixAjouteurACarac(
                 "Vous ragez contre le chaos de la forêt. Cela ne serait pas arrivé dans un endroit civilisé.",
-                PRIO_ORDRE, "1");
+                ORDRE, "1");
     choixSavoir->m_GoToEffetId = idFin;
 
     Choix* choixEcouter = AjouterChoixAjouteurACarac(
@@ -282,31 +286,28 @@ Effet* GenPrologueArdennes::GenererPerdu(QString idDebut, QString idFin)
 
     Choix* choixChanter = AjouterChoixAjouteurACarac(
                 "Vous sifflez une chanson pour vous donner du courage.",
-                PRIO_ART, "1");
+                ART, "1");
     choixChanter->m_GoToEffetId = idFin;
-
-
-    return effet;
 }
 
-Effet* GenPrologueArdennes::GenererAuberon(QString idDebut, QString idFin)
+void GenPrologueArdennes::GenererAuberon(QString idDebut, QString idFin)
 {
-    Effet* effet = AjouterEffetNarration("Au détour d'un petit sentier vous croisez un grotesque nain contrefait et bossu. "
+    AjouterEffetNarration("Au détour d'un petit sentier vous croisez un grotesque nain contrefait et bossu. "
            "Il marche en plein milieu du sentier et vous repousse ostensiblement sur le côté en criant de lui laisser la place à lui qui est Aubéron, le seigneur fée de la forêt des ardennes.",
            "", idDebut);
 
     Choix* choixImposteur = AjouterChoixAjouteurACarac(
-                 "Vous le traitez d'imposteur. Il n'y a pas de fées.", GenPrologueArdennes::PRIO_LUMIERE, "1");
+                 "Vous le traitez d'imposteur. Il n'y a pas de fées.", GenPrologueArdennes::LUMIERE, "1");
     choixImposteur->m_GoToEffetId = "imposteur";
 
     Choix* choixDuel = AjouterChoixAjouteurACarac(
                  "Vous le défiez de prouver qui il est en vous affrontant dans une épreuve.",
-                GenPrologueArdennes::PRIO_NOBLESSE, "1");
+                GenPrologueArdennes::NOBLESSE, "1");
     choixDuel->m_GoToEffetId = "duel";
 
     Choix* choixFeerie = AjouterChoixAjouteurACarac(
                  "Vous le croyez sur parole et le laissez passer respectueusement.",
-                GenPrologueArdennes::PRIO_FEERIE, "1");
+                GenPrologueArdennes::FEERIE, "1");
     choixFeerie->m_GoToEffetId = idFin;
 
     Choix* choixFlatterie = AjouterChoixAjouteurACarac(
@@ -319,56 +320,50 @@ Effet* GenPrologueArdennes::GenererAuberon(QString idDebut, QString idFin)
                 URevolution::VOLONTE, "1");
     choixFonce->m_GoToEffetId = "choixFonce";
 
-    /*Choix* choixRien =*/ AjouterChoixGoToEffet(
-                 "Vous le laissez passer pour ne pas créer d'histoire.", idFin);
-
-    return effet;
+    AjouterChoixGoToEffet( "Vous le laissez passer pour ne pas créer d'histoire.", idFin);
 }
 
-Effet* GenPrologueArdennes::GenererArbreSacre(QString idDebut, QString idFin)
+void GenPrologueArdennes::GenererArbreSacre(QString idDebut, QString idFin)
 {
-    Effet* effet = AjouterEffetNarration("En suivant la meuse vous finissez par arriver à un endroit où les arbres sont beaucoup moins nombreux et où se trouvent quelques champs. Quelques habitations se trouvent à quelques centaines de mètres. Mais ue fois que vous les avez atteintes c'est pour constater qu'un paysan s'y dispute violemment avec son voisin. Le paysan énervé vous explique que son voisin s'apprête à abattre un très vieil arbre. Très contrarié il vous explique qu'il s'agit d'un arbre sacré et que les esprits des forêts cesseraient de favoriser sa récolte si on le coupait. Il se pourrait même qu'ils veuillent se venger. L'autre paysan trouve cette histoire ridicule et explique que cet arbre est de toute façon si vieux que des branches en tombent régulièrement ce qui est dangereux.",
+    AjouterEffetNarration("En suivant la meuse vous finissez par arriver à un endroit où les arbres sont beaucoup moins nombreux et où se trouvent quelques champs. Quelques habitations se trouvent à quelques centaines de mètres. Mais ue fois que vous les avez atteintes c'est pour constater qu'un paysan s'y dispute violemment avec son voisin. Le paysan énervé vous explique que son voisin s'apprête à abattre un très vieil arbre. Très contrarié il vous explique qu'il s'agit d'un arbre sacré et que les esprits des forêts cesseraient de favoriser sa récolte si on le coupait. Il se pourrait même qu'ils veuillent se venger. L'autre paysan trouve cette histoire ridicule et explique que cet arbre est de toute façon si vieux que des branches en tombent régulièrement ce qui est dangereux.",
            ":/Images/Ardennes/ArbreSacre.jpg", idDebut);
 
     Choix* choixCouper = AjouterChoixAjouteurACarac(
-                 "Couper cet arbre sera le moyen de montrer que ces histoires de fées sont grotesques.", GenPrologueArdennes::PRIO_LUMIERE, "1");
+                 "Couper cet arbre sera le moyen de montrer que ces histoires de fées sont grotesques.", GenPrologueArdennes::LUMIERE, "1");
     choixCouper->m_GoToEffetId = idFin;
 
     Choix* choixOrdre = AjouterChoixAjouteurACarac(
-                 "Vous cherchez à savoir à qui appartient le terrain. C'est lui qui doit décider.", GenPrologueArdennes::PRIO_ORDRE, "1");
+                 "Vous cherchez à savoir à qui appartient le terrain. C'est lui qui doit décider.", GenPrologueArdennes::ORDRE, "1");
     choixOrdre->m_GoToEffetId = idFin;
 
     Choix* choixFeerie = AjouterChoixAjouteurACarac(
-                 "Vous protégez l'arbre sacré.", GenPrologueArdennes::PRIO_FEERIE, "1");
+                 "Vous protégez l'arbre sacré.", GenPrologueArdennes::FEERIE, "1");
     choixFeerie->m_GoToEffetId = idFin;
 
     Choix* choixReligion = AjouterChoixAjouteurACarac(
-                 "Vous insistez non seulement pour que l'arbre soit coupé mais aussi brûlé et remplacé par une croix.", GenPrologueArdennes::PRIO_RELIGION, "1");
+                 "Vous insistez non seulement pour que l'arbre soit coupé mais aussi brûlé et remplacé par une croix.", GenPrologueArdennes::RELIGION, "1");
     choixReligion->m_GoToEffetId = idFin;
 
     Choix* choixTailler = AjouterChoixAjouteurACarac(
-                 "Vous proposez de tailler le vieil arbre pour qu'il reste majestueux mais sans branche abimée.", GenPrologueArdennes::PRIO_TRAVAIL, "1");
+                 "Vous proposez de tailler le vieil arbre pour qu'il reste majestueux mais sans branche abimée.", GenPrologueArdennes::TRAVAIL, "1");
     choixTailler->m_GoToEffetId = idFin;
-
-
-    return effet;
 }
 
-Effet* GenPrologueArdennes::GenererDolmen(QString idDebut, QString idFin)
+void GenPrologueArdennes::GenererDolmen(QString idDebut, QString idFin)
 {
-    Effet* effet = AjouterEffetNarration("Soudain vous entendez un violent coup de tonnerre. Trente secondes plus tard il pleut à verse. Heureusement vous appercevez non loin de là une petite clairière où se trouve un étrange empilemenet de pierres où vous devriez pouvoir vous abriter.",
+    AjouterEffetNarration("Soudain vous entendez un violent coup de tonnerre. Trente secondes plus tard il pleut à verse. Heureusement vous appercevez non loin de là une petite clairière où se trouve un étrange empilemenet de pierres où vous devriez pouvoir vous abriter.",
            "", idDebut);
 
     Choix* choixRien = AjouterChoixAjouteurACarac(
-                 "Vous vous réfugiez vite dessous avant que toutes vos affaires soient trempées et inutilisable.", GenPrologueArdennes::PRIO_LUMIERE, "1");
+                 "Vous vous réfugiez vite dessous avant que toutes vos affaires soient trempées et inutilisable.", GenPrologueArdennes::LUMIERE, "1");
     choixRien->m_GoToEffetId = idFin;
 
     Choix* choixPeur = AjouterChoixAjouteurACarac(
-                 "C'est un dolmen féérique. Hors de question de prendre le risque de les courroucer.", GenPrologueArdennes::PRIO_FEERIE, "1");
+                 "C'est un dolmen féérique. Hors de question de prendre le risque de les courroucer.", GenPrologueArdennes::FEERIE, "1");
     choixPeur->m_GoToEffetId = idFin;
 
     Choix* choixPriere = AjouterChoixAjouteurACarac(
-                 "Ces endroits païnens sont certes dangereux mais votre coeur pur ainsi qu'une humble prière vous protègeront.", GenPrologueArdennes::PRIO_NOBLESSE, "1");
+                 "Ces endroits païnens sont certes dangereux mais votre coeur pur ainsi qu'une humble prière vous protègeront.", GenPrologueArdennes::NOBLESSE, "1");
     choixPriere->m_GoToEffetId = idFin;
 
     Choix* choixAmi = AjouterChoixAjouteurACarac(
@@ -376,39 +371,35 @@ Effet* GenPrologueArdennes::GenererDolmen(QString idDebut, QString idFin)
     choixAmi->m_GoToEffetId = idFin;
 
     Choix* choixErudit = AjouterChoixAjouteurACarac(
-                 "Formidable c'est l'occasion d'obeserver des structures païennes anciennes tout en s'abritant.", GenPrologueArdennes::PRIO_SAVOIR, "1");
+                 "Formidable c'est l'occasion d'obeserver des structures païennes anciennes tout en s'abritant.", GenPrologueArdennes::SAVOIR, "1");
     choixErudit->m_GoToEffetId = idFin;
-
-    return effet;
 }
 
-Effet* GenPrologueArdennes::GenererCocagne(QString idDebut, QString idFin)
+void GenPrologueArdennes::GenererCocagne(QString idDebut, QString idFin)
 {
-    Effet* effet = AjouterEffetNarration("Vous débouchez dans une vaste clairière. Alors qu'il y a deux pas vous étiez trempé par une pluie assourdissante vous êtes maintenant au sec bercé par une douce musique. Alors que vous étiez seul et entouré de bêtes sauvages voilà que vous êtes environné de jeunes gens beaux et joyeux. Le vin jaillit des fontaines.",
+    AjouterEffetNarration("Vous débouchez dans une vaste clairière. Alors qu'il y a deux pas vous étiez trempé par une pluie assourdissante vous êtes maintenant au sec bercé par une douce musique. Alors que vous étiez seul et entouré de bêtes sauvages voilà que vous êtes environné de jeunes gens beaux et joyeux. Le vin jaillit des fontaines.",
            "", idDebut);
 
     AjouterChoixAjouteurACarac(
                  "Cela ne se peut. La faim et la soif on du vous faire délirer.",
-                GenPrologueArdennes::PRIO_LUMIERE, "1", idFin);
+                GenPrologueArdennes::LUMIERE, "1", idFin);
 
     Choix* choixAbstinence = AjouterChoixAjouteurACarac(
                  "Quel pays de débauchés molassons. Vous prenez juste de quoi vous restaurer puis reprenez votre route.",
-                GenPrologueArdennes::PRIO_ORDRE, "1", idFin);
+                GenPrologueArdennes::ORDRE, "1", idFin);
     choixAbstinence->AjouterAjouteurACarac(URevolution::VOLONTE, "1");
 
     AjouterChoixAjouteurACarac(
                  "Les jeunes gens n'ont pas l'air farouche. Après vous être bien restauré vous cherchez quelqu'un avec qui batifoler.",
-                GenPrologueArdennes::PRIO_LIBERTE, "1", idFin);
+                GenPrologueArdennes::INDIVIDUALISME, "1", idFin);
 
     AjouterChoixGoToEffet(
                  "Le pays de cocagne ! Vous vous jetez sur vos mets préférés en vous chauffant au soleil de ce pays enchanteur.", idFin);
-
-    return effet;
 }
 
-Effet* GenPrologueArdennes::GenererNuages(QString idDebut, QString idFin)
+void GenPrologueArdennes::GenererNuages(QString idDebut, QString idFin)
 {
-    Effet* effet = AjouterEffetNarration("Après une âpre escalade d'un mont du haut duquel vous pourrez mieux évaluer votre situation vous vous retrouvez au dessus d'une mer de nuages. Quels sont vos sentiments à ce spectacle grandiose ?",
+    AjouterEffetNarration("Après une âpre escalade d'un mont du haut duquel vous pourrez mieux évaluer votre situation vous vous retrouvez au dessus d'une mer de nuages. Quels sont vos sentiments à ce spectacle grandiose ?",
            ":/Images/Ardennes/Mer de nuages.jpg", idDebut);
 
     AjouterChoixAjouteurACarac(
@@ -416,20 +407,18 @@ Effet* GenPrologueArdennes::GenererNuages(QString idDebut, QString idFin)
                 URevolution::PUISSANCE, "1", idFin);
     AjouterChoixAjouteurACarac(
                  "Gloire à Dieu qui seul à pu créer une telle beauté.",
-                GenPrologueArdennes::PRIO_RELIGION, "1", idFin);
+                GenPrologueArdennes::RELIGION, "1", idFin);
     AjouterChoixAjouteurACarac(
                  "Et ainsi la supériorité de l'homme dompte la nature.",
-                GenPrologueArdennes::PRIO_LUMIERE, "1", idFin);
+                GenPrologueArdennes::LUMIERE, "1", idFin);
     AjouterChoixAjouteurACarac(
                  "Vous êtes ébahi par la beauté. Vous aimeriez avoir le temps et les moyens de la rendre immortelle par un tableau ou un poème.",
-                GenPrologueArdennes::PRIO_ART, "1", idFin);
-
-    return effet;
+                GenPrologueArdennes::ART, "1", idFin);
 }
 
-Effet* GenPrologueArdennes::GenererReve(QString idDebut, QString idFin)
+void GenPrologueArdennes::GenererReve(QString idDebut, QString idFin)
 {
-    Effet* effet = AjouterEffetNarration("Bercé par le feu de l'ermite et malgré la dureté du sol sur lequel vous vous trouvez vous ne tardez pas à vous endormir d'un sommeil profond. Dans votre rêve le vieil ermite"
+    AjouterEffetNarration("Bercé par le feu de l'ermite et malgré la dureté du sol sur lequel vous vous trouvez vous ne tardez pas à vous endormir d'un sommeil profond. Dans votre rêve le vieil ermite"
                                          "s'approche de vous. Au lieu de marcher, il flotte doucement au dessus du sol. Il appelle quelqu'un. Des êtres étranges de forme humaine mais aux oreilles pointues et cheveux longs et flottants viennent courir autour de vous en dansant et riant. Le vieil ermite vous adresse alors la parole. Sa voie a changé. Elle est plus profonde, plus imposante. Les autres cessent leur ronde et l'écoutent avec respect.\n"
                                          "\"Tu as le respect du peuple fée étranger. Tu as droit à un don. Choisis avec sagesse/\"",
            ":/Images/Ardennes/Mer de nuages.jpg", idDebut);
@@ -437,16 +426,16 @@ Effet* GenPrologueArdennes::GenererReve(QString idDebut, QString idFin)
     Choix* choixPuissance = AjouterChoixAjouteurACarac(
                  "Je veux la force d'écraser mes ennemis.",
                 URevolution::PUISSANCE, "1", idFin);
-    choixPuissance->AjouterAjouteurACarac(GenPrologueArdennes::PRIO_FORCE, "1");
+    choixPuissance->AjouterAjouteurACarac(GenPrologueArdennes::FORCE, "1");
 
     Choix* choixIntel = AjouterChoixAjouteurACarac(
                  "Je veux l'intelligence. Je veux tout comprendre et tout savoir.",
                 URevolution::INTELLIGENCE, "1", idFin);
-    choixIntel->AjouterAjouteurACarac(GenPrologueArdennes::PRIO_SAVOIR, "1");
+    choixIntel->AjouterAjouteurACarac(GenPrologueArdennes::SAVOIR, "1");
 
     AjouterChoixAjouteurACarac(
                  "Je refuse les dons corrupteurs des monstres païens. ",
-                GenPrologueArdennes::PRIO_RELIGION, "1", idFin);
+                GenPrologueArdennes::RELIGION, "1", idFin);
 
     AjouterChoixAjouteurACarac(
                  "Je veux la beauté.",
@@ -454,13 +443,11 @@ Effet* GenPrologueArdennes::GenererReve(QString idDebut, QString idFin)
 
     AjouterChoixAjouteurACarac(
                  "Je souhaite l'inspiration.",
-                GenPrologueArdennes::PRIO_ART, "1", idFin);
+                GenPrologueArdennes::ART, "1", idFin);
 
     AjouterChoixAjouteurACarac(
                  "Nul besoin de vos dons, j'arriverai à tout par moi-même.",
                 URevolution::VOLONTE, "1", idFin);
-
-    return effet;
 }
 
 void GenPrologueArdennes::GenererEvtsAccueil()
@@ -482,5 +469,4 @@ void GenPrologueArdennes::GenererEvtsAccueil()
     GenererNuages          (ID_EF_NUAGES,         ID_EF_ARBRE_SACRE);
     // clairière habitations
     GenererArbreSacre      (ID_EF_ARBRE_SACRE,         ID_EF_PROCHAIN_EFFET);
-
 }
