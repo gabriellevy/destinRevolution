@@ -109,8 +109,7 @@ void GenPrologueArdennes::GenererEveil(QString idDebut, QString idFin)
                                                           "", idDebut);
 
     // les choix
-    AjouterChoixGoToEffet(
-                 "Vous partez explorer au hasard", idFin);
+    AjouterChoixGoToEffet( "Vous partez explorer au hasard", idFin);
 
     AjouterChoixAjouteurACarac(
                  "Parons au plus pressé : vous cherchez si il y a trace de fruits comestibles dans les environs ou d'animaux à chasser",
@@ -139,6 +138,10 @@ void GenPrologueArdennes::GenererEveil(QString idDebut, QString idFin)
     Effet* dodo = AjouterEffetNarration("Est-ce un rêve. Vous croyiez être endormi sur une branche mais vous voilà errant dans une forêt à nouveau. Impossible d'en être sûr mais ça semble en plus être la même forêt."
                           "Et les mêmes cris, qui cette fois sont tout proches. Est-il possible d'y échapper ?", "", "PrefereDormir");
     dodo->m_GoToEffetId = idFin;
+
+    // chercher à manger
+    Effet* manger = AjouterEffetNarration("En cherchant aux alentours vous entendez des cris perçants", "", "ChercherAManger");
+    manger->m_GoToEffetId = idFin;
 }
 
 void GenPrologueArdennes::GenererHistoireErmite(QString idDebut, QString idFin)

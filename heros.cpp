@@ -17,7 +17,6 @@ void Heros::InitialiserPerso()
                              URevolution::HABILETE,
                              MODE_AFFICHAGE::ma_Nombre);
     GestionnaireCarac::GetGestionnaireCarac()->AjouterCarac(caracHABILETE);
-    m_CaracsAAfficher.push_back(URevolution::HABILETE);
 
     Carac* caracPUISSANCE = new Carac(URevolution::PUISSANCE,
                              URevolution::PUISSANCE,
@@ -26,7 +25,6 @@ void Heros::InitialiserPerso()
                              URevolution::PUISSANCE,
                              MODE_AFFICHAGE::ma_Nombre);
     GestionnaireCarac::GetGestionnaireCarac()->AjouterCarac(caracPUISSANCE);
-    m_CaracsAAfficher.push_back(URevolution::PUISSANCE);
 
     Carac* caracCHARISME = new Carac(URevolution::CHARISME,
                              URevolution::CHARISME,
@@ -35,7 +33,6 @@ void Heros::InitialiserPerso()
                              URevolution::CHARISME,
                              MODE_AFFICHAGE::ma_Nombre);
     GestionnaireCarac::GetGestionnaireCarac()->AjouterCarac(caracCHARISME);
-    m_CaracsAAfficher.push_back(URevolution::CHARISME);
 
     Carac* caracINTELLIGENCE = new Carac(URevolution::INTELLIGENCE,
                              URevolution::INTELLIGENCE,
@@ -44,7 +41,6 @@ void Heros::InitialiserPerso()
                              URevolution::INTELLIGENCE,
                              MODE_AFFICHAGE::ma_Nombre);
     GestionnaireCarac::GetGestionnaireCarac()->AjouterCarac(caracINTELLIGENCE);
-    m_CaracsAAfficher.push_back(URevolution::INTELLIGENCE);
 
     Carac* caracVolonte = new Carac(URevolution::VOLONTE,
                              URevolution::VOLONTE,
@@ -53,7 +49,6 @@ void Heros::InitialiserPerso()
                              URevolution::VOLONTE,
                              MODE_AFFICHAGE::ma_Nombre);
     GestionnaireCarac::GetGestionnaireCarac()->AjouterCarac(caracVolonte);
-    m_CaracsAAfficher.push_back(URevolution::VOLONTE);
 
     Carac* caracPerception = new Carac(URevolution::PERCEPTION,
                              URevolution::PERCEPTION,
@@ -62,19 +57,18 @@ void Heros::InitialiserPerso()
                              URevolution::PERCEPTION,
                              MODE_AFFICHAGE::ma_Nombre);
     GestionnaireCarac::GetGestionnaireCarac()->AjouterCarac(caracPerception);
-    m_CaracsAAfficher.push_back(URevolution::PERCEPTION);
 
-
-    m_CaracsAAfficher.push_back(GenPrologueArdennes::ART);
-    m_CaracsAAfficher.push_back(GenPrologueArdennes::RELIGION);
-    m_CaracsAAfficher.push_back(GenPrologueArdennes::ORDRE);
-    m_CaracsAAfficher.push_back(GenPrologueArdennes::FORCE);
-    m_CaracsAAfficher.push_back(GenPrologueArdennes::NOBLESSE);
-    m_CaracsAAfficher.push_back(GenPrologueArdennes::LUMIERE);
-    m_CaracsAAfficher.push_back(GenPrologueArdennes::TRAVAIL);
-    m_CaracsAAfficher.push_back(GenPrologueArdennes::INDIVIDUALISME);
-    m_CaracsAAfficher.push_back(GenPrologueArdennes::SAVOIR);
-    m_CaracsAAfficher.push_back(GenPrologueArdennes::FEERIE);
+    // temporaire :
+    GestionnaireCarac::GetGestionnaireCarac()->AjouterCaracNombre(GenPrologueArdennes::ART);
+    GestionnaireCarac::GetGestionnaireCarac()->AjouterCaracNombre(GenPrologueArdennes::RELIGION);
+    GestionnaireCarac::GetGestionnaireCarac()->AjouterCaracNombre(GenPrologueArdennes::ORDRE);
+    GestionnaireCarac::GetGestionnaireCarac()->AjouterCaracNombre(GenPrologueArdennes::FORCE);
+    GestionnaireCarac::GetGestionnaireCarac()->AjouterCaracNombre(GenPrologueArdennes::NOBLESSE);
+    GestionnaireCarac::GetGestionnaireCarac()->AjouterCaracNombre(GenPrologueArdennes::LUMIERE);
+    GestionnaireCarac::GetGestionnaireCarac()->AjouterCaracNombre(GenPrologueArdennes::TRAVAIL);
+    GestionnaireCarac::GetGestionnaireCarac()->AjouterCaracNombre(GenPrologueArdennes::INDIVIDUALISME);
+    GestionnaireCarac::GetGestionnaireCarac()->AjouterCaracNombre(GenPrologueArdennes::SAVOIR);
+    GestionnaireCarac::GetGestionnaireCarac()->AjouterCaracNombre(GenPrologueArdennes::FEERIE);
 }
 
 URevolution* Heros::GetURevolution()
