@@ -119,6 +119,10 @@ void GenPrologueArdennes::GenererEveil(QString idDebut, QString idFin)
                  "Vous restez où vous êtes et réfléchissez pour comprendre ce qui a bien pu vous arriver", URevolution::INTELLIGENCE, "1", "ResterReflechir");
 
     AjouterChoixAjouteurACarac(
+                 "Vous vous concentrez en observant, écoutant et sentant les alentours pour chercher un indice quelconque.",
+                URevolution::PERCEPTION, "1", "PercevoirAlentours");
+
+    AjouterChoixAjouteurACarac(
                  "Vous montez en haut d'un arbre pour y dormir en attendant la fin de la nuit", URevolution::HABILETE, "1", "MonterSurArbre");
 
     // sur arbre
@@ -142,6 +146,12 @@ void GenPrologueArdennes::GenererEveil(QString idDebut, QString idFin)
     // chercher à manger
     Effet* manger = AjouterEffetNarration("En cherchant aux alentours vous entendez des cris perçants", "", "ChercherAManger");
     manger->m_GoToEffetId = idFin;
+
+    Effet* PercevoirAlentours = AjouterEffetNarration(
+                "Le bruit est très lointain et couvert par les bruits des oiseaux nocturnes et une légère pluie mais aps de doute : vous entendez des cris féminins d'appel au secours dans une direction bien nette."
+                "Peut-être a-t'on besoin de vous. Mais sinon c'est de toute façon le meilleur moyen de vous renseigner. Vous vous dirigez dans cette direction.",
+                "", "PercevoirAlentours");
+    PercevoirAlentours->m_GoToEffetId = idFin;
 }
 
 void GenPrologueArdennes::GenererHistoireErmite(QString idDebut, QString idFin)
