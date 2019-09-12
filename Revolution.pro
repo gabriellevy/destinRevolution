@@ -24,6 +24,8 @@ CONFIG += c++11
 CONFIG += resources_big
 
 SOURCES += \
+    ../destinLib/execlancerde.cpp \
+    ../destinLib/lancerde.cpp \
     genprologueardennes.cpp \
     heros.cpp \
         main.cpp \
@@ -56,6 +58,8 @@ SOURCES += \
     urevolution.cpp
 
 HEADERS += \
+    ../destinLib/execlancerde.h \
+    ../destinLib/lancerde.h \
     ../destinLib/selectionneurdenoeud.h \
     ../destinLib/univers.h \
     ../destinLib/histoire.h \
@@ -94,6 +98,7 @@ FORMS += \
     ../destinLib/evt.ui \
     ../destinLib/histoire.ui \
     ../destinLib/noeud.ui \
+    ../destinLib/lancerde.ui \
     ../destinLib/perso.ui
 
 # Default rules for deployment.

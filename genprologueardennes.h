@@ -59,6 +59,7 @@ private:
     void GenererCocagne(QString idDebut, QString idFin);
     void GenererNuages(QString idDebut, QString idFin);
     void GenererReve(QString idDebut, QString idFin);
+    void GenererTestLancerDeBidon();
 
 };
 
