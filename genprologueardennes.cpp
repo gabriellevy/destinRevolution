@@ -6,6 +6,7 @@
 #include "../destinLib/execeffet.h"
 #include "heros.h"
 #include "../destinLib/lancerde.h"
+#include "../destinLib/choix.h"
 
 QString GenPrologueArdennes::NOBLESSE = "Aristocratie";
 QString GenPrologueArdennes::LUMIERE = "Bourgeois";
@@ -472,24 +473,10 @@ ResExecutionLancerDe* ExecutionCombatDe(int resDe, QVector<QString> params)
         resTxt = "Bravo vous avez gagné !";
     return new ResExecutionLancerDe(resTxt, !fini);
 }
-
-void GenPrologueArdennes::GenererTestLancerDeBidon()
-{
-    Effet* effet = AjouterEffetNarration("Vous allez lancer un dé j'imagine.",
-           "", "lancerDe");
-
-    LancerDe* lancerDe = new LancerDe(effet, "Combattre", 3, ExecutionCombatDe);
-    effet->m_LancerDe = lancerDe;
-
-
-    AjouterEffetNarration("Le combat est fini j'imagine.",
-           "", "finiCombat");
-}
-
 void GenPrologueArdennes::GenererEvtsAccueil()
 {
     this->AjouterEvt("Debut", "Génération du perso par les choix");
-    /*GenererEveil(           ID_EF_ACCUEIL,          ID_EF_HOMME_SAUVAGE);
+    GenererEveil(           ID_EF_ACCUEIL,          ID_EF_HOMME_SAUVAGE);
     GenererHommeSauvage     (ID_EF_HOMME_SAUVAGE,   ID_EF_PERDU);
     GenererPerdu            (ID_EF_PERDU,           ID_EF_HISTOIRE_ERMITE);
     // 1ère nuit à l'abri
@@ -504,6 +491,5 @@ void GenPrologueArdennes::GenererEvtsAccueil()
     // repérage montagne
     GenererNuages          (ID_EF_NUAGES,         ID_EF_ARBRE_SACRE);
     // clairière habitations
-    GenererArbreSacre      (ID_EF_ARBRE_SACRE,         ID_EF_PROCHAIN_EFFET);*/
-    GenererTestLancerDeBidon();
+    GenererArbreSacre      (ID_EF_ARBRE_SACRE,         ID_EF_PROCHAIN_EFFET);
 }
