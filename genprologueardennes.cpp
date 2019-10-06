@@ -6,6 +6,7 @@
 #include "../destinLib/execeffet.h"
 #include "heros.h"
 #include "../destinLib/lancerde.h"
+#include "../destinLib/choix.h"
 
 QString GenPrologueArdennes::NOBLESSE = "Aristocratie";
 QString GenPrologueArdennes::LUMIERE = "Bourgeois";
@@ -57,6 +58,7 @@ QString GenPrologueArdennes::ID_EF_PERDU = "Perdu";
 QString GenPrologueArdennes::ID_EF_AUBERON = "Aubéron";
 QString GenPrologueArdennes::ID_EF_DOLMEN = "Dolmen";
 QString GenPrologueArdennes::ID_EF_ARBRE_SACRE = "Arbre sacré";
+QString GenPrologueArdennes::ID_EF_FIN = "Fin";
 QString GenPrologueArdennes::ID_EF_COCAGNE = "Cocagne";
 QString GenPrologueArdennes::ID_EF_NUAGES = "Mer de nuages";
 QString GenPrologueArdennes::ID_EF_REVE = "Reve";
@@ -105,7 +107,7 @@ void GenPrologueArdennes::GenererHommeSauvage(QString idDebut, QString idFin)
 
 void GenPrologueArdennes::GenererEveil(QString idDebut, QString idFin)
 {
-    AjouterEffetNarration("Vous vous éveillez en plein forêt des ardennes et en pleine nuit, l'esprit enbrumé mais le corps hardi. Malgré le danger de votre situation il vous semble que tout vous est possible aujourd'hui et que cette forêt sombre et menaçante est la vôtre. Que faites vous ?",
+    AjouterEffetNarration("Vous vous éveillez en pleine forêt des ardennes et en pleine nuit, l'esprit enbrumé mais le corps hardi. Malgré le danger de votre situation il vous semble que tout vous est possible aujourd'hui et que cette forêt sombre et menaçante est la vôtre. Que faites vous ?",
                                                           "", idDebut);
 
     // les choix
@@ -148,7 +150,7 @@ void GenPrologueArdennes::GenererEveil(QString idDebut, QString idFin)
     manger->m_GoToEffetId = idFin;
 
     Effet* PercevoirAlentours = AjouterEffetNarration(
-                "Le bruit est très lointain et couvert par les bruits des oiseaux nocturnes et une légère pluie mais aps de doute : vous entendez des cris féminins d'appel au secours dans une direction bien nette."
+                "Le bruit est très lointain et couvert par les bruits des oiseaux nocturnes et une légère pluie mais pas de doute : vous entendez des cris féminins d'appel au secours dans une direction bien nette."
                 "Peut-être a-t'on besoin de vous. Mais sinon c'est de toute façon le meilleur moyen de vous renseigner. Vous vous dirigez dans cette direction.",
                 "", "PercevoirAlentours");
     PercevoirAlentours->m_GoToEffetId = idFin;
@@ -266,8 +268,11 @@ void GenPrologueArdennes::GenererOieSauvage(QString idDebut, QString idFin)
 
 void GenPrologueArdennes::GenererPerdu(QString idDebut, QString idFin)
 {
-    AjouterEffetNarration("Après des heures à errer dans la forêt force vous est de reconnaître que non seulement vous ne parvenez pas à vous repérer mais vous ne parvenez même pas à appercevoir le ciel tant la forêt est dense. Et l'aube tarde. Vous avez pourtant le sentiment d'avoir marché tout une nuit. Le désespoir vous gagne.",
-                                                          "", idDebut);
+    AjouterEffetNarration(
+                "Après des heures à errer dans la forêt force vous est de reconnaître que non seulement vous ne parvenez pas à vous "
+                "repérer mais vous ne parvenez même pas à appercevoir le ciel tant la forêt est dense. Et l'aube tarde. Vous avez "
+                "pourtant le sentiment d'avoir marché tout une nuit. Le désespoir vous gagne.",
+                "", idDebut);
 
     Choix* choixArduinna = AjouterChoixAjouteurACarac(
                  "Vous priez Arduinna la divinité du monde sauvage et de la forêt des ardennes.", GenPrologueArdennes::RELIGION, "1");
@@ -301,6 +306,12 @@ void GenPrologueArdennes::GenererPerdu(QString idDebut, QString idFin)
                 "Vous sifflez une chanson pour vous donner du courage.",
                 ART, "1");
     choixChanter->m_GoToEffetId = idFin;
+
+    Effet* prieresEntendues = AjouterEffetNarration(
+                "Vous vous agenouillez humblement et priez avec ferveur. La réponse ne vient pas par des mots mais par une profonde chaleur qui vous envahit et vous emplit d'une assurance inébranlable."
+                "Vous vous levez et vous remettez en marche en vous fiant à votre instinct. Aucun doute : vos pas sont maintenant guidés par une volonté supérieure.",
+                "", "prieresEntendues");
+    prieresEntendues->m_GoToEffetId = idFin;
 }
 
 void GenPrologueArdennes::GenererAuberon(QString idDebut, QString idFin)
@@ -463,33 +474,34 @@ void GenPrologueArdennes::GenererReve(QString idDebut, QString idFin)
                 URevolution::VOLONTE, "1", idFin);
 }
 
-ResExecutionLancerDe* ExecutionCombatDe(int resDe, QVector<QString> params)
+void GenPrologueArdennes::GenererCompteRendu(QString idDebut, QString idFin)
 {
-    QString resTxt = "je suis dans l'exécution de ExecutionCombatDe. Résultat du dé : " + QString::number(resDe);
-    //qDebug()<<res<<endl;
-    bool fini = (resDe < 6);
-    if ( fini)
-        resTxt = "Bravo vous avez gagné !";
-    return new ResExecutionLancerDe(resTxt, !fini);
-}
+    QString texteCompteRendu = "Vos scores : ";
+    texteCompteRendu += "\nRELIGION : " + GestionnaireCarac::GetCaracValue(GenPrologueArdennes::RELIGION);
+    texteCompteRendu += "\nORDRE : " + GestionnaireCarac::GetCaracValue(GenPrologueArdennes::ORDRE);
+    texteCompteRendu += "\nFORCE : " + GestionnaireCarac::GetCaracValue(GenPrologueArdennes::FORCE);
+    texteCompteRendu += "\nNOBLESSE : " + GestionnaireCarac::GetCaracValue(GenPrologueArdennes::NOBLESSE);
+    texteCompteRendu += "\nLUMIERE : " + GestionnaireCarac::GetCaracValue(GenPrologueArdennes::LUMIERE);
+    texteCompteRendu += "\nTRAVAIL : " + GestionnaireCarac::GetCaracValue(GenPrologueArdennes::TRAVAIL);
+    texteCompteRendu += "\nINDIVIDUALISME : " + GestionnaireCarac::GetCaracValue(GenPrologueArdennes::INDIVIDUALISME);
+    texteCompteRendu += "\nSAVOIR : " + GestionnaireCarac::GetCaracValue(GenPrologueArdennes::SAVOIR);
+    texteCompteRendu += "\nART : " + GestionnaireCarac::GetCaracValue(GenPrologueArdennes::ART);
+    texteCompteRendu += "\nFEERIE : " + GestionnaireCarac::GetCaracValue(GenPrologueArdennes::FEERIE);
+    texteCompteRendu += "\nHABILETE : " + GestionnaireCarac::GetCaracValue(URevolution::HABILETE);
+    texteCompteRendu += "\nPUISSANCE : " + GestionnaireCarac::GetCaracValue(URevolution::PUISSANCE);
+    texteCompteRendu += "\nCHARISME : " + GestionnaireCarac::GetCaracValue(URevolution::CHARISME);
+    texteCompteRendu += "\nINTELLIGENCE : " + GestionnaireCarac::GetCaracValue(URevolution::INTELLIGENCE);
+    texteCompteRendu += "\nVOLONTE : " + GestionnaireCarac::GetCaracValue(URevolution::VOLONTE);
+    texteCompteRendu += "\nPERCEPTION : " + GestionnaireCarac::GetCaracValue(URevolution::PERCEPTION);
 
-void GenPrologueArdennes::GenererTestLancerDeBidon()
-{
-    Effet* effet = AjouterEffetNarration("Vous allez lancer un dé j'imagine.",
-           "", "lancerDe");
-
-    LancerDe* lancerDe = new LancerDe(effet, "Combattre", 3, ExecutionCombatDe);
-    effet->m_LancerDe = lancerDe;
-
-
-    AjouterEffetNarration("Le combat est fini j'imagine.",
-           "", "finiCombat");
+    AjouterEffetNarration(texteCompteRendu,
+           "", idDebut);
 }
 
 void GenPrologueArdennes::GenererEvtsAccueil()
 {
     this->AjouterEvt("Debut", "Génération du perso par les choix");
-    /*GenererEveil(           ID_EF_ACCUEIL,          ID_EF_HOMME_SAUVAGE);
+    GenererEveil(           ID_EF_ACCUEIL,          ID_EF_HOMME_SAUVAGE);
     GenererHommeSauvage     (ID_EF_HOMME_SAUVAGE,   ID_EF_PERDU);
     GenererPerdu            (ID_EF_PERDU,           ID_EF_HISTOIRE_ERMITE);
     // 1ère nuit à l'abri
@@ -504,6 +516,7 @@ void GenPrologueArdennes::GenererEvtsAccueil()
     // repérage montagne
     GenererNuages          (ID_EF_NUAGES,         ID_EF_ARBRE_SACRE);
     // clairière habitations
-    GenererArbreSacre      (ID_EF_ARBRE_SACRE,         ID_EF_PROCHAIN_EFFET);*/
-    GenererTestLancerDeBidon();
+    GenererArbreSacre      (ID_EF_ARBRE_SACRE,         ID_EF_FIN);
+
+    GenererCompteRendu(ID_EF_FIN, ID_EF_PROCHAIN_EFFET);
 }

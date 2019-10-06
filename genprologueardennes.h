@@ -40,6 +40,7 @@ protected:
     static QString ID_EF_COCAGNE;
     static QString ID_EF_NUAGES;
     static QString ID_EF_REVE;
+    static QString ID_EF_FIN;
 
     static QString ID_EF_PROCHAIN_EFFET;
 
@@ -59,7 +60,7 @@ private:
     void GenererCocagne(QString idDebut, QString idFin);
     void GenererNuages(QString idDebut, QString idFin);
     void GenererReve(QString idDebut, QString idFin);
-    void GenererTestLancerDeBidon();
+    void GenererCompteRendu(QString idDebut, QString idFin);
 
 };
 
